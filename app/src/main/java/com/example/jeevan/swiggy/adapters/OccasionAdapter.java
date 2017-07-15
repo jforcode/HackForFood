@@ -14,7 +14,7 @@ import com.example.jeevan.swiggy.R;
 import com.example.jeevan.swiggy.Util.AppController;
 import com.example.jeevan.swiggy.Util.Constants;
 import com.example.jeevan.swiggy.activities.ChooseOrderActivity;
-import com.example.jeevan.swiggy.models.Ocassion;
+import com.example.jeevan.swiggy.models.Occasion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,18 +26,22 @@ import butterknife.ButterKnife;
  * Created by jeevan on 7/15/17.
  */
 
-public class OcassionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class OccasionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
-    List<Ocassion> ocassions;
+    List<Occasion> occasions;
 
-    public OcassionAdapter(Context context) {
+    public OccasionAdapter(Context context) {
         this.context = context;
-        this.ocassions = new ArrayList<>();
-        ocassions.add(new Ocassion("Hangout", R.drawable.occasion_hangout, "Wanna hangout! Order some snacks..."));
-        ocassions.add(new Ocassion("Regular", R.drawable.occasion_bday, "Order the regulars!"));
-        ocassions.add(new Ocassion("Surprise Me", R.drawable.occasion_chilling, "Want a break from everyday. Get surprised!"));
-
+        this.occasions = new ArrayList<>();
     }
+
+    public void setOccasions(List<Occasion> occasions) {
+        if (occasions != null) {
+            this.occasions = occasions;
+            notifyDataSetChanged();
+        }
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.li_occasion, parent, false);
@@ -51,19 +55,17 @@ public class OcassionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChooseOrderActivity.class);
-                String occasion = ocassions.get(position).getOcassion();
-                AppController.getInstance().changeOccasion(occasion);
-                intent.putExtra(Constants.IP_OCCASION_NAME, occasion);
+                AppController.getInstance().setOccasion(occasions.get(position));
                 context.startActivity(intent);
             }
         });
-        holder.ocassionIcon.setImageResource(ocassions.get(position).getDrawable());
-        holder.txtDesc.setText(ocassions.get(position).getDesc());
+        holder.ocassionIcon.setImageResource(occasions.get(position).getDrawable());
+        holder.txtDesc.setText(occasions.get(position).getDesc());
     }
 
     @Override
     public int getItemCount() {
-        return ocassions.size();
+        return occasions.size();
     }
 
     public class OcassionViewHolder extends RecyclerView.ViewHolder {

@@ -4,4 +4,6 @@
     <dimen name="general_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="list_orders_height">100dp</dimen>
+    <dimen name="search_term_frag_width">100dp</dimen>
+    <dimen name="search_term_frag_height">200dp</dimen>
 </resources>

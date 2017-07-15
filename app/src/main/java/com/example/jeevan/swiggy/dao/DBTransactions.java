@@ -6,11 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.jeevan.swiggy.DBTables.MenuItemTable;
+import com.example.jeevan.swiggy.DBTables.OccasionTable;
 import com.example.jeevan.swiggy.DBTables.OrderItemTable;
 import com.example.jeevan.swiggy.DBTables.OrderTable;
 import com.example.jeevan.swiggy.DBTables.RestaurantsTable;
 import com.example.jeevan.swiggy.DBTables.UserTable;
 import com.example.jeevan.swiggy.models.MenuItem;
+import com.example.jeevan.swiggy.models.Occasion;
 import com.example.jeevan.swiggy.models.Order;
 import com.example.jeevan.swiggy.models.OrderItem;
 import com.example.jeevan.swiggy.models.Restaurant;
@@ -83,6 +85,16 @@ public class DBTransactions {
         return oe;
     }
 
+    private Occasion getOccasionFromCursor(Cursor cursor) {
+        Occasion occasion = new Occasion();
+        occasion.setId(cursor.getLong(cursor.getColumnIndex(OccasionTable.KEY_ID)));
+        occasion.setOccasion(cursor.getString(cursor.getColumnIndex(OccasionTable.KEY_OCCASION)));
+        occasion.setDesc(cursor.getString(cursor.getColumnIndex(OccasionTable.KEY_DESC)));
+        occasion.setTerms(cursor.getString(cursor.getColumnIndex(OccasionTable.KEY_TERMS)).split(","));
+        occasion.setDrawable();
+        return occasion;
+    }
+
     public User validateAndGetUser(String un, String pw) {
         User user = null;
         String where = UserTable.KEY_USERNAME + " = ? AND " + UserTable.KEY_PWD + " = ?";
@@ -116,7 +128,10 @@ public class DBTransactions {
         String[] args = {};
         Cursor cursor = db.query(RestaurantsTable.TABLE_NAME, null, where, args, null, null, null);
         while (cursor.moveToNext()) {
-            restaurants.add(getRestaurantFromCursor(cursor));
+            Restaurant r = getRestaurantFromCursor(cursor);
+            if (!restaurants.contains(r)) {
+                restaurants.add(r);
+            }
         }
         if (cursor != null) cursor.close();
         String query = "SELECT DISTINCT RT.* FROM " + RestaurantsTable.TABLE_NAME + " RT, " + MenuItemTable.TABLE_NAME + " MIT " +
@@ -187,6 +202,15 @@ public class DBTransactions {
         }
         if (cursor != null) cursor.close();
         return ret;
+    }
+
+    public List<Occasion> getAllOccasions() {
+        List<Occasion> occasions = new ArrayList<>();
+        Cursor cursor = db.query(OccasionTable.TABLE_NAME, null, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            occasions.add(getOccasionFromCursor(cursor));
+        }
+        return occasions;
     }
 
     private ContentValues getContentValues(Order order) {

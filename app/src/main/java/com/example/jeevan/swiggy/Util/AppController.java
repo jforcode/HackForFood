@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.example.jeevan.swiggy.models.Occasion;
 import com.example.jeevan.swiggy.models.Order;
 import com.example.jeevan.swiggy.models.OrderItem;
 import com.example.jeevan.swiggy.models.User;
@@ -19,12 +20,25 @@ public class AppController extends Application {
 
     private Order order;
     private User user;
+    private Occasion occasion;
  
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        this.order = null;
+    }
+
+    public Occasion getOccasion() {
+        return occasion;
+    }
+
+    public void setOccasion(Occasion occasion) {
+        this.occasion = occasion;
+        if (occasion == null) {
+            order = null;
+        } else {
+            order = new Order();
+        }
     }
 
     public User getUser() {
@@ -77,13 +91,5 @@ public class AppController extends Application {
         }
         order.getOrderItems().addAll(toAdd);
         order.setTotalCost(order.getTotalCost() + otherOrder.getTotalCost());
-    }
-
-    public void changeOccasion(String occasion) {
-        if (occasion == null) this.order = null;
-        else {
-            this.order = new Order();
-            order.setOccasion(occasion);
-        }
     }
 }

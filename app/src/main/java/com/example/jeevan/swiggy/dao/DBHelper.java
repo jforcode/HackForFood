@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.jeevan.swiggy.DBTables.OccasionTable;
 import com.example.jeevan.swiggy.DBTables.OrderItemTable;
 import com.example.jeevan.swiggy.DBTables.OrderTable;
 import com.example.jeevan.swiggy.DBTables.MenuItemTable;
@@ -31,10 +32,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(MenuItemTable.CREATE_QUERY);
         db.execSQL(OrderTable.CREATE_QUERY);
         db.execSQL(OrderItemTable.CREATE_QUERY);
+        db.execSQL(OccasionTable.CREATE_QUERY);
 
         db.execSQL(UserTable.INIT_INSERT);
         db.execSQL(RestaurantsTable.INIT_INSERT);
         db.execSQL(MenuItemTable.INIT_INSERT);
+        db.execSQL(OccasionTable.INIT_INSERT);
     }
 
     @Override
@@ -44,6 +47,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(MenuItemTable.DELETE_QUERY);
         db.execSQL(OrderTable.DELETE_QUERY);
         db.execSQL(OrderItemTable.DELETE_QUERY);
+        db.execSQL(OccasionTable.DELETE_QUERY);
         onCreate(db);
     }
 
@@ -54,6 +58,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(MenuItemTable.DELETE_QUERY);
         db.execSQL(OrderTable.DELETE_QUERY);
         db.execSQL(OrderItemTable.DELETE_QUERY);
+        db.execSQL(OccasionTable.DELETE_QUERY);
         onCreate(db);
     }
 }

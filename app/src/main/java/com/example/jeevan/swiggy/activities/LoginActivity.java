@@ -5,13 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
 import com.example.jeevan.swiggy.Util.AppController;
 import com.example.jeevan.swiggy.dao.DBTransactions;
-import com.example.jeevan.swiggy.models.Ocassion;
 import com.example.jeevan.swiggy.models.User;
 
 import butterknife.BindView;

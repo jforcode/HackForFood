@@ -49,7 +49,6 @@ public class ChooseOrderActivity extends AppCompatActivity {
 
     OrderHorizontalAdapter savedAdapter;
     Order savedOrder;
-
     String occasion;
 
     @Override
@@ -58,11 +57,7 @@ public class ChooseOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_order);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-        occasion = getIntent().getExtras().getString(Constants.IP_OCCASION_NAME);
-        if (occasion == null) {
-            Toast.makeText(this, "Didn't get occasion in ChooseOrderActivity", Toast.LENGTH_SHORT).show();
-            onBackPressed();
-        }
+        occasion = AppController.getInstance().getOccasion().getOccasion();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(occasion);
         setUpLists();
@@ -129,7 +124,7 @@ public class ChooseOrderActivity extends AppCompatActivity {
                 .setPositiveButton("Yeah", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        AppController.getInstance().changeOccasion(null);
+                        AppController.getInstance().setOccasion(null);
                         finish();
                     }
                 })

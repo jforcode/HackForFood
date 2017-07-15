@@ -19,7 +19,7 @@ public class Util {
 
     public static TextDrawable getNameDrawable(String name) {
         if (name == null || name.isEmpty()) name = " ";
-        TextDrawable nameDrawable = TextDrawable.builder().buildRound(name.charAt(0)+"", generator.getColor(name));
+        TextDrawable nameDrawable = TextDrawable.builder().buildRect(name.charAt(0)+"", generator.getColor(name));
         return nameDrawable;
     }
 

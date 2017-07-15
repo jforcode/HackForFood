@@ -54,4 +54,11 @@ public class Restaurant implements Comparable<Restaurant> {
         if (id < o.getId()) return -1;
         return 1;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Restaurant)) return false;
+        if (id == ((Restaurant) obj).getId()) return true;
+        return false;
+    }
 }

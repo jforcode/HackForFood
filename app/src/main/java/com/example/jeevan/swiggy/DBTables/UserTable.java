@@ -23,6 +23,6 @@ public class UserTable {
     public static final String INIT_INSERT = "INSERT INTO " + TABLE_NAME +
             "(" + KEY_NAME + ", " + KEY_USERNAME + ", " + KEY_PWD + ")" +
             " VALUES " +
-            "(\"JEEVAN\", \"JEEVAN\", \"JEEVAN\")," +
-            "(\"PANKAJ\", \"PANKAJ\", \"PANKAJ\")";
+            "(\"JEEVAN\", \"Jeevan\", \"Jeevan\")," +
+            "(\"PANKAJ\", \"Pankaj\", \"Pankaj\")";
 }
