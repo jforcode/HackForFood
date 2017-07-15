@@ -8,24 +8,31 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.example.jeevan.swiggy.models.Order;
+import com.example.jeevan.swiggy.models.OrderItem;
+import com.example.jeevan.swiggy.models.User;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class AppController extends Application {
- 
-    public static final String TAG = AppController.class
-            .getSimpleName();
- 
-    private RequestQueue mRequestQueue;
-    private ImageLoader mImageLoader;
- 
     private static AppController mInstance;
 
     private Order order;
+    private User user;
  
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        this.order = new Order();
+        this.order = null;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Order getOrder() {
@@ -39,38 +46,44 @@ public class AppController extends Application {
     public static synchronized AppController getInstance() {
         return mInstance;
     }
- 
-    public RequestQueue getRequestQueue() {
-        if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+
+    // order modifying functions
+    public void mergeOrder(Order otherOrder) {
+        if (otherOrder == null) return;
+        if (this.order == null) {
+            this.order = otherOrder;
+            return;
         }
- 
-        return mRequestQueue;
-    }
- 
-    public ImageLoader getImageLoader() {
-        getRequestQueue();
-        if (mImageLoader == null) {
-            mImageLoader = new ImageLoader(this.mRequestQueue,
-                    new LruBitmapCache());
+        // merge the given order into the current order
+        Collections.sort(order.getOrderItems());
+        Collections.sort(otherOrder.getOrderItems());
+        ArrayList<OrderItem> toAdd = new ArrayList<>();
+        int orderSize = order.getOrderItems().size();
+        int otherOrderSize = otherOrder.getOrderItems().size();
+        for (int i=0,j=0;i<orderSize && j<otherOrderSize;) {
+            OrderItem orderItem = order.getOrderItems().get(i);
+            OrderItem otherOrderItem = otherOrder.getOrderItems().get(j);
+            int comp = orderItem.compareTo(otherOrderItem);
+            if (comp == 0) {
+                orderItem.setQty(orderItem.getQty() + otherOrderItem.getQty());
+                i++;
+                j++;
+            } else if (comp < 0) {
+                i++;
+            } else {
+                toAdd.add(otherOrderItem);
+                j++;
+            }
         }
-        return this.mImageLoader;
+        order.getOrderItems().addAll(toAdd);
+        order.setTotalCost(order.getTotalCost() + otherOrder.getTotalCost());
     }
- 
-    public <T> void addToRequestQueue(Request<T> req, String tag) {
-        // set the default tag if tag is empty
-        req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
-        getRequestQueue().add(req);
-    }
- 
-    public <T> void addToRequestQueue(Request<T> req) {
-        req.setTag(TAG);
-        getRequestQueue().add(req);
-    }
- 
-    public void cancelPendingRequests(Object tag) {
-        if (mRequestQueue != null) {
-            mRequestQueue.cancelAll(tag);
+
+    public void changeOccasion(String occasion) {
+        if (occasion == null) this.order = null;
+        else {
+            this.order = new Order();
+            order.setOccasion(occasion);
         }
     }
 }

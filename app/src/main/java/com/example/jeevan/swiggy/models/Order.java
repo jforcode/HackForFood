@@ -11,6 +11,7 @@ public class Order {
     // describe a custom swiggy order
     long id, userId;
     List<OrderItem> orderItems;
+    String orderName;
     String occasion;
     double totalCost;
     long time;
@@ -25,6 +26,14 @@ public class Order {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public String getOrderName() {
+        return orderName;
+    }
+
+    public void setOrderName(String orderName) {
+        this.orderName = orderName;
     }
 
     public String getOccasion() {

@@ -1,12 +1,14 @@
 package com.example.jeevan.swiggy.models;
 
+import android.support.annotation.NonNull;
+
 import java.util.Comparator;
 
 /**
  * Created by jeevan on 7/15/17.
  */
 
-public class Restaurant implements Comparator<Restaurant> {
+public class Restaurant implements Comparable<Restaurant> {
     // describes a restaurant
     long id;
     String name;
@@ -46,11 +48,10 @@ public class Restaurant implements Comparator<Restaurant> {
         this.cuisines = cuisines;
     }
 
-
     @Override
-    public int compare(Restaurant o1, Restaurant o2) {
-        if (o1.getId() == o2.getId()) return 0;
-        if (o1.getId() < o2.getId()) return -1;
+    public int compareTo(@NonNull Restaurant o) {
+        if (id == o.getId()) return 0;
+        if (id < o.getId()) return -1;
         return 1;
     }
 }

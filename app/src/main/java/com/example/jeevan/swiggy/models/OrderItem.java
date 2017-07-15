@@ -1,10 +1,14 @@
 package com.example.jeevan.swiggy.models;
 
+import android.support.annotation.NonNull;
+
+import java.util.Comparator;
+
 /**
  * Created by jeevan on 7/15/17.
  */
 
-public class OrderItem {
+public class OrderItem implements Comparable<OrderItem> {
     long id, orderId;
     MenuItem menuItem;
     long qty;
@@ -40,5 +44,12 @@ public class OrderItem {
 
     public void setQty(long qty) {
         this.qty = qty;
+    }
+
+    @Override
+    public int compareTo(@NonNull OrderItem o) {
+        if (id == o.getId()) return 0;
+        if (id < o.getId()) return -1;
+        return 1;
     }
 }

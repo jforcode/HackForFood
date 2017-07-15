@@ -9,10 +9,12 @@ import com.example.jeevan.swiggy.DBTables.MenuItemTable;
 import com.example.jeevan.swiggy.DBTables.OrderItemTable;
 import com.example.jeevan.swiggy.DBTables.OrderTable;
 import com.example.jeevan.swiggy.DBTables.RestaurantsTable;
+import com.example.jeevan.swiggy.DBTables.UserTable;
 import com.example.jeevan.swiggy.models.MenuItem;
 import com.example.jeevan.swiggy.models.Order;
 import com.example.jeevan.swiggy.models.OrderItem;
 import com.example.jeevan.swiggy.models.Restaurant;
+import com.example.jeevan.swiggy.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +55,7 @@ public class DBTransactions {
     private MenuItem getMenuItemFromCursor(Cursor cursor) {
         MenuItem item = new MenuItem();
         item.setId(cursor.getLong(cursor.getColumnIndex(MenuItemTable.KEY_ID)));
-        item.setRestId(cursor.getLong(cursor.getColumnIndex(MenuItemTable.KEY_REST_ID)));
+        item.setRestaurant(getRestaurant(cursor.getLong(cursor.getColumnIndex(MenuItemTable.KEY_REST_ID))));
         item.setName(cursor.getString(cursor.getColumnIndex(MenuItemTable.KEY_NAME)));
         item.setPrice(cursor.getDouble(cursor.getColumnIndex(MenuItemTable.KEY_PRICE)));
         return item;
@@ -62,6 +64,7 @@ public class DBTransactions {
     private Order getOrderFromCursor(Cursor cursor) {
         Order order = new Order();
         order.setId(cursor.getLong(cursor.getColumnIndex(OrderTable.KEY_ID)));
+        order.setOrderName(cursor.getString(cursor.getColumnIndex(OrderTable.KEY_NAME)));
         order.setUserId(cursor.getLong(cursor.getColumnIndex(OrderTable.KEY_USER_ID)));
         order.setOccasion(cursor.getString(cursor.getColumnIndex(OrderTable.KEY_OCCASION)));
         order.setTime(cursor.getLong(cursor.getColumnIndex(OrderTable.KEY_TIME)));
@@ -78,6 +81,31 @@ public class DBTransactions {
         long itemId = cursor.getLong(cursor.getColumnIndex(OrderItemTable.KEY_ITEM_ID));
         oe.setMenuItem(getMenuItem(itemId));
         return oe;
+    }
+
+    public User validateAndGetUser(String un, String pw) {
+        User user = null;
+        String where = UserTable.KEY_USERNAME + " = ? AND " + UserTable.KEY_PWD + " = ?";
+        String[] args = {un, pw};
+        Cursor cursor = db.query(UserTable.TABLE_NAME, null, where, args, null, null, null, null);
+        if (cursor.moveToNext()) {
+            user = new User();
+            user.setUserId(cursor.getLong(cursor.getColumnIndex(UserTable.KEY_ID)));
+            user.setUserName(cursor.getString(cursor.getColumnIndex(UserTable.KEY_NAME)));
+        }
+        if (cursor != null) cursor.close();
+        return user;
+    }
+
+    private Restaurant getRestaurant(long restId) {
+        Restaurant restaurant = null;
+        String where = RestaurantsTable.KEY_ID + " = ?";
+        String[] args = {String.valueOf(restId)};
+        Cursor cursor = db.query(RestaurantsTable.TABLE_NAME, null, where, args, null, null, null);
+        if (cursor.moveToNext()) {
+            restaurant = getRestaurantFromCursor(cursor);
+        }
+        return restaurant;
     }
 
     public List<Restaurant> getAllRestaurants(String searchParam) {
@@ -134,7 +162,12 @@ public class DBTransactions {
         String where = OrderTable.KEY_USER_ID + " = ? AND " + OrderTable.KEY_OCCASION + " = ?";
         String[] args = {String.valueOf(userId), occasion};
         String order = OrderTable.KEY_ID + " DESC";
-        Cursor cursor = db.query(OrderTable.TABLE_NAME, null, where, args, null, null, order, String.valueOf(limit));
+        Cursor cursor = null;
+        if (limit != -1) {
+            cursor = db.query(OrderTable.TABLE_NAME, null, where, args, null, null, order, String.valueOf(limit));
+        } else {
+            cursor = db.query(OrderTable.TABLE_NAME, null, where, args, null, null, order);
+        }
         int count = 0;
         while (cursor.moveToNext() && count++ < limit) {
             ret.add(getOrderFromCursor(cursor));
@@ -158,6 +191,7 @@ public class DBTransactions {
 
     private ContentValues getContentValues(Order order) {
         ContentValues values = new ContentValues();
+        values.put(OrderTable.KEY_NAME, order.getOrderName());
         values.put(OrderTable.KEY_USER_ID, order.getUserId());
         values.put(OrderTable.KEY_OCCASION, order.getOccasion());
         values.put(OrderTable.KEY_TIME, order.getTime());

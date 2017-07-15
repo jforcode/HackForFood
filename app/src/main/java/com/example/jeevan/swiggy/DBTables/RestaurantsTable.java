@@ -25,6 +25,6 @@ public class RestaurantsTable {
             " VALUES " +
             "(\"TRUFFLES\", \"CAFE,AMERICAN\", \"HANGOUT\")," +
             "(\"POLAR BEAR\", \"DESSERTS,FAST FOOD\", \"HANGOUT,BIRTHDAY,TREAT\")," +
-            "(\"A2B\", \"NORTH INDIAN,CHINESE\", \"REGULAR\"),";
+            "(\"A2B\", \"NORTH INDIAN,CHINESE\", \"REGULAR\")";
 
 }

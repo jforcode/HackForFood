@@ -13,17 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.OccasionsActivity">
+        </activity>
+        <activity android:name=".activities.ChooseOrderActivity" />
+        <activity
+            android:name=".activities.CreateOrderActivity" />
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ChooseOrderActivity" />
-        <activity
-            android:name=".activities.CreateCustomOrderActivity"
-            android:label="@string/title_activity_create_custom_order"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

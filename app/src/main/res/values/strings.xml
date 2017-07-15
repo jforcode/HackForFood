@@ -2,4 +2,21 @@
     <string name="app_name">Swiggy</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_create_custom_order">CreateCustomOrderActivity</string>
+
+
+    <!-- calendar, one extra for lunar calendars -->
+    <string name="Jan">Jan</string>
+    <string name="Feb">Feb</string>
+    <string name="Mar">Mar</string>
+    <string name="Apr">Apr</string>
+    <string name="May">May</string>
+    <string name="June">June</string>
+    <string name="July">July</string>
+    <string name="Aug">Aug</string>
+    <string name="Sept">Sept</string>
+    <string name="Oct">Oct</string>
+    <string name="Nov">Nov</string>
+    <string name="Dec">Dec</string>
+    <string name="UnDec">UnDec</string>
+
 </resources>

@@ -8,7 +8,7 @@ public class MenuItem {
     // describes a food menuItem
     long id;
     String name;
-    long restId;
+    Restaurant restaurant;
     double price;
 
     public long getId() {
@@ -27,12 +27,12 @@ public class MenuItem {
         this.name = name;
     }
 
-    public long getRestId() {
-        return restId;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestId(long restId) {
-        this.restId = restId;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public double getPrice() {

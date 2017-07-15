@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.example.jeevan.swiggy.R;
 
-public class CreateCustomOrderActivity extends AppCompatActivity {
+public class CreateOrderActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
