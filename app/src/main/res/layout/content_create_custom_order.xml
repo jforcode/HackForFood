@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.jeevan.swiggy.activities.CreateCustomOrderActivity"
+    tools:showIn="@layout/activity_create_custom_order">
+
+    <Button
+        android:id="@+id/pre_determined_terms"
+        android:text="Occasion Based"
+        android:background="@android:color/transparent"
+        android:textColor="@color/colorAccent"
+        android:paddingLeft="@dimen/general_margin"
+        android:paddingRight="@dimen/general_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/label_or"
+        android:text="OR"
+        android:textColor="@android:color/primary_text_light"
+        android:layout_toRightOf="@id/pre_determined_terms"
+        android:layout_alignTop="@id/pre_determined_terms"
+        android:layout_alignBottom="@id/pre_determined_terms"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/general_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/search_box"
+        android:layout_toRightOf="@id/label_or"
+        android:layout_marginLeft="@dimen/general_margin"
+        android:hint="Search"
+        android:paddingLeft="@dimen/general_margin"
+        android:layout_alignTop="@id/pre_determined_terms"
+        android:layout_alignBottom="@id/pre_determined_terms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="1" />
+
+    <Button
+        android:id="@+id/filter"
+        android:layout_below="@id/pre_determined_terms"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/general_margin"
+        android:layout_marginTop="@dimen/general_margin"
+        android:text="FILTER"
+        android:background="@color/orange"
+        android:textColor="@android:color/primary_text_dark"
+        android:paddingLeft="@dimen/general_margin"
+        android:paddingRight="@dimen/general_margin"
+        android:drawableLeft="@drawable/ic_filter_list_white_18dp"
+        android:drawablePadding="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/search_term"
+        android:layout_below="@id/pre_determined_terms"
+        android:layout_toLeftOf="@id/filter"
+        android:text="Related to &quot;Cake&quot;"
+        android:textSize="18sp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@id/filter"
+        android:layout_alignBottom="@id/filter"
+        android:paddingLeft="@dimen/general_margin"
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/searchTabLayout"
+        android:layout_below="@id/search_term"
+        android:layout_marginTop="@dimen/general_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/searchViewPager"
+        android:layout_below="@id/searchTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+
+</RelativeLayout>
