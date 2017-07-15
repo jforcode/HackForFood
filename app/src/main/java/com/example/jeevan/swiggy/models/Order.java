@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Order {
     // describe a custom swiggy order
-    long orderId, userId;
+    long id, userId;
     List<OrderItem> orderItems;
     String occasion;
     double totalCost;
@@ -43,12 +43,12 @@ public class Order {
         this.time = time;
     }
 
-    public long getOrderId() {
-        return orderId;
+    public long getId() {
+        return id;
     }
 
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public List<OrderItem> getOrderItems() {

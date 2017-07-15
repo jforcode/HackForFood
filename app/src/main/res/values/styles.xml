@@ -2,9 +2,9 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <menuItem name="colorPrimary">@color/colorPrimary</menuItem>
-        <menuItem name="colorPrimaryDark">@color/colorPrimaryDark</menuItem>
-        <menuItem name="colorAccent">@color/colorAccent</menuItem>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
