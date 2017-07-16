@@ -1,6 +1,7 @@
 package com.example.jeevan.swiggy.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
+import com.example.jeevan.swiggy.Util.Constants;
 import com.example.jeevan.swiggy.Util.Util;
+import com.example.jeevan.swiggy.activities.ItemsActivity;
 import com.example.jeevan.swiggy.models.Restaurant;
 
 import java.util.ArrayList;
@@ -49,7 +52,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
         RestaurantViewHolder holder = (RestaurantViewHolder) holder1;
-        Restaurant restaurant = restaurants.get(position);
+        final Restaurant restaurant = restaurants.get(position);
         holder.restIcon.setImageDrawable(Util.getNameDrawable(restaurant.getName()));
         holder.txtRestName.setText(restaurant.getName());
         StringBuilder cuisines = new StringBuilder();
@@ -58,6 +61,15 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         cuisines.delete(cuisines.length()-2, cuisines.length());
         holder.txtRestCuisines.setText(cuisines);
+
+        holder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ItemsActivity.class);
+                intent.putExtra(Constants.IP_RESTAURANT, restaurant);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

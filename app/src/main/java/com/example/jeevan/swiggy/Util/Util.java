@@ -38,4 +38,10 @@ public class Util {
         return Math.ceil(debt*100)/100;
     }
 
+    public static String getString(String[] arr) {
+        StringBuilder ret = new StringBuilder();
+        for (String a : arr) ret.append(a).append(", ");
+        ret.delete(ret.length()-2, ret.length());
+        return ret.toString();
+    }
 }

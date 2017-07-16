@@ -11,10 +11,19 @@ public class Order {
     // describe a custom swiggy order
     long id, userId;
     List<OrderItem> orderItems;
+    long qty;
     String orderName;
     String occasion;
     double totalCost;
     long time;
+
+    public long getQty() {
+        return qty;
+    }
+
+    public void setQty(long qty) {
+        this.qty = qty;
+    }
 
     public Order() {
         this.orderItems = new ArrayList<>();

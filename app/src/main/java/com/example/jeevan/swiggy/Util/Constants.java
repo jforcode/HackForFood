@@ -6,4 +6,5 @@ package com.example.jeevan.swiggy.Util;
 
 public class Constants {
     public static final String IP_OCCASION_NAME = "OCCASION_NAME";
+    public static final String IP_RESTAURANT = "RESTAURANT";
 }

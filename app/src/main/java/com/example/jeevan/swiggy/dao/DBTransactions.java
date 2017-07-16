@@ -148,6 +148,23 @@ public class DBTransactions {
         return restaurants;
     }
 
+    public List<MenuItem> getMenuItems(Restaurant restaurant) {
+        List<MenuItem> menuItems = new ArrayList<>();
+        String where = MenuItemTable.KEY_REST_ID + " = ?";
+        String[] args = {String.valueOf(restaurant.getId())};
+        Cursor cursor = db.query(MenuItemTable.TABLE_NAME, null, where, args, null, null, null, null);
+        while (cursor.moveToNext()) {
+            MenuItem item = new MenuItem();
+            item.setId(cursor.getLong(cursor.getColumnIndex(MenuItemTable.KEY_ID)));
+            item.setRestaurant(restaurant);
+            item.setName(cursor.getString(cursor.getColumnIndex(MenuItemTable.KEY_NAME)));
+            item.setPrice(cursor.getDouble(cursor.getColumnIndex(MenuItemTable.KEY_PRICE)));
+            menuItems.add(item);
+        }
+        if (cursor != null) cursor.close();
+        return menuItems;
+    }
+
     public MenuItem getMenuItem(long itemId) {
         MenuItem me = null;
         String where = MenuItemTable.KEY_ID + " = ?";

@@ -74,7 +74,9 @@ public class CreateOrderActivity extends AppCompatActivity implements SearchTerm
 
             @Override
             public void afterTextChanged(Editable s) {
-                search(s.toString());
+                if (s.length() >= 3) {
+                    search(s.toString());
+                }
             }
         });
     }

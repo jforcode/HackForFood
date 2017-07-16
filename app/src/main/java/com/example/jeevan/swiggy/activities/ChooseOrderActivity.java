@@ -46,6 +46,8 @@ public class ChooseOrderActivity extends AppCompatActivity {
     TextView txtOrderName;
     @BindView(R.id.total_cost)
     TextView txtTotalCost;
+    @BindView(R.id.bottom_order_layout)
+    View bottomView;
 
     OrderHorizontalAdapter savedAdapter;
     Order savedOrder;
@@ -58,6 +60,7 @@ public class ChooseOrderActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         occasion = AppController.getInstance().getOccasion().getOccasion();
+        AppController.getInstance().getBottomTab().setBottomTabView(bottomView);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(occasion);
         setUpLists();
@@ -134,5 +137,11 @@ public class ChooseOrderActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppController.getInstance().getBottomTab().setBottomTabView(bottomView);
     }
 }
