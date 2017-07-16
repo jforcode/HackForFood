@@ -143,24 +143,33 @@ public class AppController extends Application {
         ArrayList<OrderItem> toAdd = new ArrayList<>();
         int orderSize = order.getOrderItems().size();
         int otherOrderSize = otherOrder.getOrderItems().size();
-        for (int i=0,j=0;i<orderSize && j<otherOrderSize;) {
+        int i=0, j=0;
+        long qty = 0;
+        for (;i<orderSize && j<otherOrderSize;) {
             OrderItem orderItem = order.getOrderItems().get(i);
             OrderItem otherOrderItem = otherOrder.getOrderItems().get(j);
             int comp = orderItem.compareTo(otherOrderItem);
             if (comp == 0) {
                 orderItem.setQty(orderItem.getQty() + otherOrderItem.getQty());
+                qty += orderItem.getQty();
                 i++;
                 j++;
             } else if (comp < 0) {
                 i++;
+                qty += orderItem.getQty();
             } else {
                 toAdd.add(otherOrderItem);
+                qty += otherOrderItem.getQty();
                 j++;
             }
         }
         order.getOrderItems().addAll(toAdd);
+        for (;j<otherOrderSize;j++) {
+            order.getOrderItems().add(otherOrder.getOrderItems().get(j));
+            qty += otherOrder.getOrderItems().get(j).getQty();
+        }
         order.setTotalCost(order.getTotalCost() + otherOrder.getTotalCost());
-
+        order.setQty(qty);
         bottomTab.updateView();
     }
 }

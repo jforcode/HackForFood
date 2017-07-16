@@ -55,7 +55,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final MenuItemViewHolder holder = (MenuItemViewHolder) holder1;
         holder.iconItem.setImageDrawable(Util.getNameDrawable(menuItem.getName()));
         holder.txtItemName.setText(menuItem.getName());
-        holder.txtItemPrice.setText(menuItem.getPrice()+"");
+        holder.txtItemPrice.setText("\u20B9 " + menuItem.getPrice());
         qty[position] = (int) AppController.getInstance().getQty(menuItem.getId());
         if (qty[position] == 0) {
             holder.btnAddItemToOrder.setVisibility(View.VISIBLE);

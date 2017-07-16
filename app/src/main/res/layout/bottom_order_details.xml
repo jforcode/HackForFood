@@ -20,17 +20,10 @@
         android:layout_height="match_parent"
         android:layout_width="2dp" />
 
-    <ImageView
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/icon_rupee"
-        android:layout_marginLeft="@dimen/general_margin"
-        android:layout_width="10dp"
-        android:layout_height="10dp" />
-
     <TextView
         android:id="@+id/total_price"
-        android:text="586"
-        android:layout_marginLeft="4dp"
+        android:text="\u20B9 586"
+        android:layout_marginLeft="8dp"
         android:textColor="@android:color/primary_text_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

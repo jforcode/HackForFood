@@ -49,7 +49,7 @@ public class BottomTabController {
         if (currentOrder != null && currentOrder.getQty() != 0) {
             bottomTabView.setVisibility(View.VISIBLE);
             txtNoItems.setText(currentOrder.getQty() + "");
-            txtTotalCost.setText(currentOrder.getTotalCost() + "");
+            txtTotalCost.setText("\u20B9 " + currentOrder.getTotalCost());
         } else {
             bottomTabView.setVisibility(View.GONE);
         }

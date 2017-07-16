@@ -179,12 +179,11 @@ public class DBTransactions {
     
     public List<OrderItem> getOrderItems(long orderId) {
         List<OrderItem> orderItems = new ArrayList<>();
-        String where = "";
-        String[] args = {};
-        String order = "";
-        Cursor cursor = db.query(OrderItemTable.TABLE_NAME, null, where, args, null, null, order);
+        String where = OrderItemTable.KEY_ORDER_ID + " = ?";
+        String[] args = {String.valueOf(orderId)};
+        Cursor cursor = db.query(OrderItemTable.TABLE_NAME, null, where, args, null, null, null);
         while (cursor.moveToNext()) {
-            OrderItem oe = getOrderItemFromCursor(cursor);
+            orderItems.add(getOrderItemFromCursor(cursor));
         }
         return orderItems;
     }
@@ -253,6 +252,7 @@ public class DBTransactions {
         long id = db.insert(OrderTable.TABLE_NAME, null, values);
         order.setId(id);
         for (OrderItem orderItem : order.getOrderItems()) {
+            orderItem.setOrderId(order.getId());
             values = getContentValues(orderItem);
             id = db.insert(OrderItemTable.TABLE_NAME, null, values);
             orderItem.setId(id);

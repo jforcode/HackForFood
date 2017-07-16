@@ -39,10 +39,12 @@ public class LoginActivity extends AppCompatActivity {
         boolean valid = true;
         String un = txtUserName.getText().toString();
         if (un.isEmpty()) {
+            valid = false;
             txtUserName.setError("Please enter a username!");
         }
         String pw = txtPassword.getText().toString();
         if (pw.isEmpty()) {
+            valid = false;
             txtPassword.setError("Please enter a password!");
         }
         if (valid) {

@@ -14,6 +14,10 @@ public class OrderItem implements Comparable<OrderItem> {
     long qty;
 
 
+    public OrderItem() {
+
+    }
+
     public long getId() {
         return id;
     }

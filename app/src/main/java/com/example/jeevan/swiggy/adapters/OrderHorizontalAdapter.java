@@ -5,13 +5,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
+import com.example.jeevan.swiggy.Util.Util;
 import com.example.jeevan.swiggy.models.OrderItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -41,8 +45,13 @@ public class OrderHorizontalAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
+        OrderItem orderItem = orderItems.get(position);
+        OrderElementViewHolder holder = (OrderElementViewHolder) holder1;
+        holder.itemIcon.setImageDrawable(Util.getNameDrawable(orderItem.getMenuItem().getName()));
+        holder.txtName.setText(orderItem.getMenuItem().getName());
+        holder.txtQty.setText("Qty: " + orderItem.getQty());
+        holder.txtPrice.setText("\u20B9 " + Util.getRoundedDouble(orderItem.getQty()*orderItem.getMenuItem().getPrice()));
     }
 
     @Override
@@ -51,6 +60,14 @@ public class OrderHorizontalAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     class OrderElementViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.item_icon)
+        ImageView itemIcon;
+        @BindView(R.id.item_qty)
+        TextView txtQty;
+        @BindView(R.id.item_name)
+        TextView txtName;
+        @BindView(R.id.item_price)
+        TextView txtPrice;
 
         public OrderElementViewHolder(View itemView) {
             super(itemView);

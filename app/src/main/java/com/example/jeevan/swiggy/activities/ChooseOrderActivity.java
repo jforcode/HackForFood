@@ -68,8 +68,6 @@ public class ChooseOrderActivity extends AppCompatActivity {
     }
 
     private void setUpLists() {
-        // make jsonObject request for the top lists for all three
-        // for now, using dummy data.
         savedAdapter = new OrderHorizontalAdapter(this);
         listSavedOrders.setAdapter(savedAdapter);
         listSavedOrders.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -86,7 +84,7 @@ public class ChooseOrderActivity extends AppCompatActivity {
             savedOrder = topOrders.get(0);
             savedAdapter.setOrderItems(savedOrder.getOrderItems());
             txtOrderName.setText(savedOrder.getOrderName());
-            txtTotalCost.setText(Util.getRoundedDouble(savedOrder.getTotalCost()) + "");
+            txtTotalCost.setText("\u20B9 " + Util.getRoundedDouble(savedOrder.getTotalCost()));
         }
     }
 
@@ -104,6 +102,12 @@ public class ChooseOrderActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    @OnClick(R.id.btn_checkout_order)
+    public void addToCart(View view) {
+        AppController.getInstance().getBottomTab().setBottomTabView(bottomView);
+        AppController.getInstance().mergeOrder(savedOrder);
     }
 
     @Override

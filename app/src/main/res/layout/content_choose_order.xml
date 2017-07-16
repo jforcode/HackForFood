@@ -42,45 +42,35 @@
         android:id="@+id/with_prev_orders"
         android:layout_below="@id/label_prev_orders"
         android:layout_marginTop="@dimen/general_margin"
-        android:layout_marginLeft="@dimen/general_margin"
-        android:layout_marginRight="@dimen/general_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/order_name"
             android:text="Everyday dinner"
-            android:textSize="18sp"
+            android:textSize="14sp"
+            android:layout_marginLeft="@dimen/general_margin"
             android:textColor="@color/dark_orange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/total_cost"
-            android:text="500"
-            android:textSize="18sp"
+            android:text="\u20B9 500"
+            android:textSize="14sp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="@dimen/general_margin"
             android:textColor="@color/dark_orange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-        <ImageView
-            android:id="@+id/rupee_icon"
-            android:layout_toLeftOf="@id/total_cost"
-            android:src="@drawable/icon_rupee"
-            android:layout_alignTop="@id/total_cost"
-            android:layout_alignBottom="@id/total_cost"
-            android:layout_marginRight="4dp"
-            android:layout_width="12dp"
-            android:layout_height="12dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_previous"
             android:layout_below="@id/total_cost"
             android:layout_marginTop="@dimen/general_margin"
+            android:paddingRight="@dimen/general_margin"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/list_orders_height">
+            android:layout_height="140dp">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -90,7 +80,6 @@
             android:text="Add to cart"
             android:paddingLeft="@dimen/general_margin"
             android:paddingRight="@dimen/general_margin"
-            android:layout_marginTop="@dimen/general_margin"
             android:background="@android:color/transparent"
             android:textColor="@color/dark_orange"
             android:layout_alignParentRight="true"
@@ -104,7 +93,6 @@
             android:text="Show More"
             android:paddingLeft="@dimen/general_margin"
             android:paddingRight="@dimen/general_margin"
-            android:layout_marginTop="@dimen/general_margin"
             android:background="@android:color/transparent"
             android:layout_marginRight="@dimen/general_margin"
             android:textColor="@color/colorPrimaryDark"

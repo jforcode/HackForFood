@@ -128,4 +128,10 @@ public class CreateOrderActivity extends AppCompatActivity implements SearchTerm
             txtCurrSearchTerm.setText("Related to \"" + searchTerm + "\"");
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppController.getInstance().getBottomTab().updateView();
+    }
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="@dimen/general_margin"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/item_price"
+        android:layout_alignParentRight="true"
+        android:text="\u20B9 530"
+        android:textColor="@android:color/primary_text_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/plus_qty"
+        android:background="@android:color/transparent"
+        android:text="+"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_toLeftOf="@id/item_price"
+        android:layout_marginRight="48dp"
+        android:layout_width="14dp"
+        android:layout_height="14dp" />
+
+    <TextView
+        android:id="@+id/qty"
+        android:text="0"
+        android:gravity="center"
+        android:textColor="@color/dark_orange"
+        android:layout_toLeftOf="@id/plus_qty"
+        android:layout_marginRight="4dp"
+        android:layout_width="14dp"
+        android:layout_height="18dp" />
+
+    <Button
+        android:background="@android:color/transparent"
+        android:layout_toLeftOf="@id/qty"
+        android:text="-"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginRight="4dp"
+        android:id="@+id/minus_qty"
+        android:layout_width="14dp"
+        android:layout_height="14dp" />
+
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/minus_qty"
+        android:layout_marginRight="@dimen/general_margin"
+        android:textColor="@android:color/primary_text_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

@@ -18,22 +18,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <ImageView
-        android:id="@+id/icon_rupee"
-        android:layout_below="@id/item_name"
-        android:layout_toRightOf="@id/icon_item"
-        android:layout_marginLeft="@dimen/general_margin"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/icon_rupee"
-        android:layout_width="10dp"
-        android:layout_height="16dp" />
     <TextView
         android:id="@+id/item_price"
         android:layout_below="@id/item_name"
-        android:layout_toRightOf="@id/icon_rupee"
-        android:text="530"
+        android:layout_toRightOf="@id/icon_item"
+        android:text="\u20B9 530"
         android:textColor="@android:color/primary_text_light"
-        android:layout_marginLeft="4dp"
+        android:layout_marginLeft="@dimen/general_margin"
         android:layout_marginTop="6dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

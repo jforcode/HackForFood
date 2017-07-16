@@ -23,6 +23,12 @@ public class Util {
         return nameDrawable;
     }
 
+    public static TextDrawable getNameDrawableRound(String name) {
+        if (name == null || name.isEmpty()) name = " ";
+        TextDrawable nameDrawable = TextDrawable.builder().buildRound(name.charAt(0)+"", generator.getColor(name));
+        return nameDrawable;
+    }
+
 
     public static String getDateString(Context context, int year, int month, int dayOfMonth) {
         return context.getString(months[month]) + " " + dayOfMonth + ", " + year;
