@@ -65,7 +65,7 @@ public class CheckoutCartActivity extends AppCompatActivity implements UpdatePar
         order.setTime(System.currentTimeMillis());
         String orderName = txtOrderName.getText().toString();
         if (orderName.isEmpty()) {
-            orderName = user.getUserName() + "-" + occasion.getOccasion() + "_" + order.getTime();
+            orderName = user.getUserName() + "-" + occasion.getOccasion();
         }
         order.setOrderName(orderName);
         DBTransactions.getInstance(this).saveOrder(order);

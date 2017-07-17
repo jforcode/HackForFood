@@ -7,166 +7,201 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_choose_order">
 
-    <Button
-        android:id="@+id/create_custom"
-        android:text="Create a custom order"
-        android:layout_margin="@dimen/general_margin"
-        android:background="@color/orange"
-        android:textColor="@android:color/background_light"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <!-- previous orders -->
-    <TextView
-        android:id="@+id/label_prev_orders"
-        android:layout_below="@id/create_custom"
-        android:text="Previous orders"
-        android:layout_marginLeft="@dimen/general_margin"
-        android:layout_marginRight="@dimen/general_margin"
-        android:textColor="@android:color/primary_text_light"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/no_prev_orders"
-        android:visibility="gone"
-        android:text="There are no previous orders by you."
-        android:textColor="@android:color/primary_text_light"
-        android:gravity="center"
-        android:layout_below="@id/label_prev_orders"
-        android:layout_margin="@dimen/general_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <RelativeLayout
-        android:id="@+id/with_prev_orders"
-        android:layout_below="@id/label_prev_orders"
-        android:layout_marginTop="@dimen/general_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/order_name"
-            android:text="Everyday dinner"
-            android:textSize="14sp"
-            android:layout_marginLeft="@dimen/general_margin"
-            android:textColor="@color/dark_orange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/total_cost"
-            android:text="\u20B9 500"
-            android:textSize="14sp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/general_margin"
-            android:textColor="@color/dark_orange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_previous"
-            android:layout_below="@id/total_cost"
-            android:layout_marginTop="@dimen/general_margin"
-            android:paddingRight="@dimen/general_margin"
-            android:layout_width="match_parent"
-            android:layout_height="140dp">
-
-        </android.support.v7.widget.RecyclerView>
-
-        <Button
-            android:id="@+id/btn_checkout_order"
-            android:layout_below="@id/list_previous"
-            android:text="Add to cart"
-            android:paddingLeft="@dimen/general_margin"
-            android:paddingRight="@dimen/general_margin"
-            android:background="@android:color/transparent"
-            android:textColor="@color/dark_orange"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btn_show_more_saved"
-            android:layout_below="@id/list_previous"
-            android:layout_toLeftOf="@id/btn_checkout_order"
-            android:text="Show More"
-            android:paddingLeft="@dimen/general_margin"
-            android:paddingRight="@dimen/general_margin"
-            android:background="@android:color/transparent"
-            android:layout_marginRight="@dimen/general_margin"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </RelativeLayout>
-
-    <!-- recommended orders from restaurants -->
-    <!--<TextView
-        android:id="@+id/label_recommended"
-        android:layout_below="@id/btn_show_more_saved"
-        android:layout_marginTop="@dimen/general_margin"
-        android:text="Recommended Orders"
-        android:textColor="@android:color/primary_text_light"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_recommended"
-        android:layout_below="@id/label_recommended"
-        android:layout_marginTop="@dimen/general_margin"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/list_orders_height">
-
-    </android.support.v7.widget.RecyclerView>
-
-    <Button
-        android:id="@+id/btn_show_more_recommended"
-        android:layout_below="@id/list_recommended"
-        android:layout_alignParentRight="true"
-        android:text="Show More"
-        android:paddingLeft="@dimen/general_margin"
-        android:paddingRight="@dimen/general_margin"
-        android:layout_marginTop="@dimen/general_margin"
-        android:background="@android:color/transparent"
-        android:textColor="@color/colorAccent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    &lt;!&ndash; popular orders from other users &ndash;&gt;
-    <TextView
-        android:id="@+id/label_popular"
-        android:layout_below="@id/btn_show_more_recommended"
-        android:layout_marginTop="@dimen/general_margin"
-        android:text="Popular orders"
-        android:textColor="@android:color/primary_text_light"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_popular"
-        android:layout_below="@id/label_popular"
-        android:layout_marginTop="@dimen/general_margin"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/list_orders_height">
-
-    </android.support.v7.widget.RecyclerView>
-
-    <Button
-        android:id="@+id/btn_show_more_popular"
-        android:layout_below="@id/list_popular"
-        android:layout_alignParentRight="true"
-        android:text="Show More"
-        android:paddingLeft="@dimen/general_margin"
-        android:paddingRight="@dimen/general_margin"
-        android:layout_marginTop="@dimen/general_margin"
-        android:background="@android:color/transparent"
-        android:textColor="@color/colorAccent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />-->
-
-
     <include
         layout="@layout/bottom_order_details"
         android:id="@+id/bottom_order_layout" />
+
+    <ScrollView
+        android:layout_above="@id/bottom_order_layout"
+        android:layout_marginBottom="@dimen/general_margin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/create_custom"
+                android:text="Custom Order"
+                android:layout_margin="@dimen/general_margin"
+                android:background="@color/orange"
+                android:textColor="@android:color/background_light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- previous orders -->
+            <TextView
+                android:id="@+id/label_prev_orders"
+                android:layout_below="@id/create_custom"
+                android:text="Previous orders"
+                android:layout_marginLeft="@dimen/general_margin"
+                android:layout_marginRight="@dimen/general_margin"
+                android:textColor="@android:color/primary_text_light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/no_prev_orders"
+                android:visibility="gone"
+                android:text="There are no previous orders by you."
+                android:textColor="@android:color/primary_text_light"
+                android:gravity="center"
+                android:layout_below="@id/label_prev_orders"
+                android:layout_margin="@dimen/general_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/with_prev_orders"
+                android:layout_below="@id/label_prev_orders"
+                android:layout_marginTop="@dimen/general_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/prev_order_name"
+                    android:text="Everyday dinner"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="@dimen/general_margin"
+                    android:textColor="@color/dark_orange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/prev_total_cost"
+                    android:text="\u20B9 500"
+                    android:textSize="14sp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/general_margin"
+                    android:textColor="@color/dark_orange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_prev"
+                    android:layout_below="@id/prev_total_cost"
+                    android:layout_marginTop="@dimen/general_margin"
+                    android:paddingRight="@dimen/general_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <Button
+                    android:id="@+id/btn_prev_checkout_order"
+                    android:layout_below="@id/list_prev"
+                    android:text="Add to cart"
+                    android:paddingLeft="@dimen/general_margin"
+                    android:paddingRight="@dimen/general_margin"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/dark_orange"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/btn_prev_show_more"
+                    android:layout_below="@id/list_prev"
+                    android:layout_toLeftOf="@id/btn_prev_checkout_order"
+                    android:text="Show More"
+                    android:paddingLeft="@dimen/general_margin"
+                    android:paddingRight="@dimen/general_margin"
+                    android:background="@android:color/transparent"
+                    android:layout_marginRight="@dimen/general_margin"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <!-- community orders -->
+            <TextView
+                android:id="@+id/label_comm_orders"
+                android:layout_below="@id/with_prev_orders"
+                android:text="Trending orders"
+                android:layout_marginLeft="@dimen/general_margin"
+                android:layout_marginRight="@dimen/general_margin"
+                android:textColor="@android:color/primary_text_light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/no_comm_orders"
+                android:visibility="gone"
+                android:text="No one else has ordered for this occasion!"
+                android:textColor="@android:color/primary_text_light"
+                android:gravity="center"
+                android:layout_below="@id/label_comm_orders"
+                android:layout_margin="@dimen/general_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/with_comm_orders"
+                android:layout_below="@id/label_comm_orders"
+                android:layout_marginTop="@dimen/general_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/comm_order_name"
+                    android:text="Everyday dinner"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="@dimen/general_margin"
+                    android:textColor="@color/dark_orange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/comm_total_cost"
+                    android:text="\u20B9 500"
+                    android:textSize="14sp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/general_margin"
+                    android:textColor="@color/dark_orange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_comm"
+                    android:layout_below="@id/comm_total_cost"
+                    android:layout_marginTop="@dimen/general_margin"
+                    android:paddingRight="@dimen/general_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <Button
+                    android:id="@+id/btn_comm_checkout_order"
+                    android:layout_below="@id/list_comm"
+                    android:text="Add to cart"
+                    android:paddingLeft="@dimen/general_margin"
+                    android:paddingRight="@dimen/general_margin"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/dark_orange"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/btn_comm_show_more"
+                    android:layout_below="@id/list_comm"
+                    android:layout_toLeftOf="@id/btn_comm_checkout_order"
+                    android:text="Show More"
+                    android:paddingLeft="@dimen/general_margin"
+                    android:paddingRight="@dimen/general_margin"
+                    android:background="@android:color/transparent"
+                    android:layout_marginRight="@dimen/general_margin"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
 </RelativeLayout>

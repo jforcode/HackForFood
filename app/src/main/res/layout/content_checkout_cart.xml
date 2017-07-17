@@ -35,14 +35,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <View
-        android:id="@+id/separator"
-        android:layout_below="@id/lbl_total"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/background_dark"
-        android:layout_width="match_parent"
-        android:layout_height="2dp" />
-
     <Button
         android:id="@+id/btn_order"
         android:text="Checkout"
@@ -54,7 +46,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_order_items"
-        android:layout_below="@id/separator"
+        android:layout_below="@id/lbl_total"
         android:layout_above="@id/btn_order"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

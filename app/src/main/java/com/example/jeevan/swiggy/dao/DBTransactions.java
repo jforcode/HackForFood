@@ -207,10 +207,10 @@ public class DBTransactions {
         return ret;
     }
 
-    public List<Order> getTrendingOrders(String occasion, int limit) {
+    public List<Order> getTrendingOrders(long userId, String occasion, int limit) {
         List<Order> ret = new ArrayList<>();
-        String where = OrderTable.KEY_OCCASION + " = ?";
-        String[] args = {occasion};
+        String where = OrderTable.KEY_OCCASION + " = ? AND " + OrderTable.KEY_USER_ID + " NOT IN (?)";
+        String[] args = {occasion, String.valueOf(userId)};
         String order = OrderTable.KEY_ID + " DESC";
         Cursor cursor = db.query(OrderTable.TABLE_NAME, null, where, args, null, null, order, String.valueOf(limit));
         while (cursor.moveToNext()) {

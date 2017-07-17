@@ -40,6 +40,14 @@ public class BottomTabController {
                 context.startActivity(intent);
             }
         });
+        this.bottomTabView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CheckoutCartActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
         updateView();
     }
 

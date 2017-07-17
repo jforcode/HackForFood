@@ -9,17 +9,13 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.jeevan.swiggy.R;
 import com.example.jeevan.swiggy.Util.AppController;
-import com.example.jeevan.swiggy.Util.Constants;
 import com.example.jeevan.swiggy.Util.Util;
 import com.example.jeevan.swiggy.adapters.OrderHorizontalAdapter;
 import com.example.jeevan.swiggy.dao.DBTransactions;
@@ -36,21 +32,34 @@ public class ChooseOrderActivity extends AppCompatActivity {
     CoordinatorLayout mCoordinator;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
     @BindView(R.id.no_prev_orders)
     TextView noPrevOrders;
     @BindView(R.id.with_prev_orders)
     RelativeLayout layoutPrevOrders;
-    @BindView(R.id.list_previous)
-    RecyclerView listSavedOrders;
-    @BindView(R.id.order_name)
-    TextView txtOrderName;
-    @BindView(R.id.total_cost)
+    @BindView(R.id.list_prev)
+    RecyclerView listPrevOrders;
+    @BindView(R.id.prev_order_name)
+    TextView txtPrevOrderName;
+    @BindView(R.id.prev_total_cost)
     TextView txtTotalCost;
+
+    @BindView(R.id.no_comm_orders)
+    TextView noCommOrders;
+    @BindView(R.id.with_comm_orders)
+    RelativeLayout layoutCommOrders;
+    @BindView(R.id.list_comm)
+    RecyclerView listCommOrders;
+    @BindView(R.id.comm_order_name)
+    TextView txtCommOrderName;
+    @BindView(R.id.comm_total_cost)
+    TextView txtCommTotalCost;
+
     @BindView(R.id.bottom_order_layout)
     View bottomView;
 
-    OrderHorizontalAdapter savedAdapter;
-    Order savedOrder;
+    OrderHorizontalAdapter savedAdapter, commAdapter;
+    Order savedOrder, commOrder;
     String occasion;
 
     @Override
@@ -69,12 +78,16 @@ public class ChooseOrderActivity extends AppCompatActivity {
 
     private void setUpLists() {
         savedAdapter = new OrderHorizontalAdapter(this);
-        listSavedOrders.setAdapter(savedAdapter);
-        listSavedOrders.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        listPrevOrders.setAdapter(savedAdapter);
+        listPrevOrders.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        commAdapter = new OrderHorizontalAdapter(this);
+        listCommOrders.setAdapter(commAdapter);
+        listCommOrders.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
     }
 
     private void fillData() {
-        List<Order> topOrders = DBTransactions.getInstance(this).getPreviousOrders(1, occasion, 1);
+        List<Order> topOrders = DBTransactions.getInstance(this).getPreviousOrders(AppController.getInstance().getUser().getUserId(), occasion, 1);
         if (topOrders.size() == 0) {
             noPrevOrders.setVisibility(View.VISIBLE);
             layoutPrevOrders.setVisibility(View.GONE);
@@ -83,8 +96,21 @@ public class ChooseOrderActivity extends AppCompatActivity {
             layoutPrevOrders.setVisibility(View.VISIBLE);
             savedOrder = topOrders.get(0);
             savedAdapter.setOrderItems(savedOrder.getOrderItems());
-            txtOrderName.setText(savedOrder.getOrderName());
+            txtPrevOrderName.setText(savedOrder.getOrderName());
             txtTotalCost.setText("\u20B9 " + Util.getRoundedDouble(savedOrder.getTotalCost()));
+        }
+
+        topOrders = DBTransactions.getInstance(this).getTrendingOrders(AppController.getInstance().getUser().getUserId(), occasion, 1);
+        if (topOrders.size() == 0) {
+            noCommOrders.setVisibility(View.VISIBLE);
+            layoutCommOrders.setVisibility(View.GONE);
+        } else {
+            noCommOrders.setVisibility(View.GONE);
+            layoutCommOrders.setVisibility(View.VISIBLE);
+            commOrder = topOrders.get(0);
+            commAdapter.setOrderItems(commOrder.getOrderItems());
+            txtCommOrderName.setText(commOrder.getOrderName());
+            txtCommTotalCost.setText("\u20B9 " + Util.getRoundedDouble(commOrder.getTotalCost()));
         }
     }
 
@@ -94,20 +120,17 @@ public class ChooseOrderActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @OnClick({R.id.btn_show_more_saved})
-    public void showMore(View view) {
-        switch (view.getId()) {
-            case R.id.btn_show_more_saved:
-                break;
-            default:
-                break;
-        }
-    }
-
-    @OnClick(R.id.btn_checkout_order)
+    @OnClick({R.id.btn_prev_checkout_order, R.id.btn_comm_checkout_order})
     public void addToCart(View view) {
         AppController.getInstance().getBottomTab().setBottomTabView(bottomView);
-        AppController.getInstance().mergeOrder(savedOrder);
+        switch(view.getId()) {
+            case R.id.btn_prev_checkout_order:
+                AppController.getInstance().mergeOrder(savedOrder);
+                break;
+            case R.id.btn_comm_checkout_order:
+                AppController.getInstance().mergeOrder(commOrder);
+                break;
+        }
     }
 
     @Override
@@ -128,14 +151,14 @@ public class ChooseOrderActivity extends AppCompatActivity {
     private void confirmGoingBack() {
         new AlertDialog.Builder(this)
                 .setMessage("The order placed for " + occasion + " will be lost!\nAre you sure of going back?")
-                .setPositiveButton("Yeah", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         AppController.getInstance().setOccasion(null);
                         finish();
                     }
                 })
-                .setNegativeButton("Nope", new DialogInterface.OnClickListener() {
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }

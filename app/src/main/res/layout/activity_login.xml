@@ -31,12 +31,14 @@
 
         <EditText
             android:id="@+id/username"
+            android:lines="1"
             android:hint="Enter Username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/password"
             android:hint="Enter Password"
+            android:lines="1"
             android:layout_below="@id/username"
             android:layout_marginTop="@dimen/general_margin"
             android:inputType="textPassword"

@@ -18,7 +18,7 @@
         android:layout_marginLeft="@dimen/general_margin"
         android:background="@android:color/background_light"
         android:layout_height="match_parent"
-        android:layout_width="2dp" />
+        android:layout_width="1dp" />
 
     <TextView
         android:id="@+id/total_price"

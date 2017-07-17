@@ -17,7 +17,7 @@ import com.example.jeevan.swiggy.DBTables.UserTable;
 
 public class DBHelper extends SQLiteOpenHelper {
     static final String DB_NAME = "SWIGGY";
-    static final int dbVersion = 2;
+    static final int dbVersion = 1;
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, dbVersion);
