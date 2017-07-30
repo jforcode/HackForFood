@@ -44,7 +44,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.li_restaurants, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.li_search_restaurants, parent, false);
         return new RestaurantViewHolder(view);
     }
 

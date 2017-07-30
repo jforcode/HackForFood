@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
             if (user == null) {
                 txtError.setVisibility(View.VISIBLE);
             } else {
-                AppContext.getInstance().setUser(user);
+                AppContext.getInstance().init(user);
                 Intent intent = new Intent(this, OccasionsActivity.class);
                 startActivity(intent);
                 this.finish();

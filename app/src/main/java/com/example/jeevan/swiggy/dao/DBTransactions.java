@@ -212,7 +212,12 @@ public class DBTransactions {
         String where = OrderTable.KEY_OCCASION + " = ? AND " + OrderTable.KEY_USER_ID + " NOT IN (?)";
         String[] args = {occasion, String.valueOf(userId)};
         String order = OrderTable.KEY_ID + " DESC";
-        Cursor cursor = db.query(OrderTable.TABLE_NAME, null, where, args, null, null, order, String.valueOf(limit));
+        Cursor cursor = null;
+        if (limit != -1) {
+            cursor = db.query(OrderTable.TABLE_NAME, null, where, args, null, null, order, String.valueOf(limit));
+        } else {
+            cursor = db.query(OrderTable.TABLE_NAME, null, where, args, null, null, order);
+        }
         while (cursor.moveToNext()) {
             ret.add(getOrderFromCursor(cursor));
         }

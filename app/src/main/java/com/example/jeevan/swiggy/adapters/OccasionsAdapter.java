@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
 import com.example.jeevan.swiggy.activities.AppContext;
+import com.example.jeevan.swiggy.activities.OrderHomeActivity;
 import com.example.jeevan.swiggy.models.Occasion;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class OccasionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ChooseOrderActivity.class);
+                Intent intent = new Intent(context, OrderHomeActivity.class);
                 AppContext.getInstance().setOccasion(occasions.get(position));
                 context.startActivity(intent);
             }

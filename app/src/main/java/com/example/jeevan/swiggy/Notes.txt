@@ -1,0 +1,24 @@
+Current implementation:
+- just to show off the concept
+- focus on basic functionality, and UI
+    user selects an occasion, then sees various lists of orders for that occasion, like popular, from restaurants etc.
+    can order only under once occasion, if he goes back to occasions page, the order will be cleared
+    can put other items in the order apart from the occasion's items.
+
+
+Thought on future enhancements:
+- can plug in some personalization stuff like location based search results etc.
+- machine learning for recommended orders.
+- Currently, the user selects an occasion, and orders under only that occasion
+  Can extend it for multiple occasions.
+  And, when the user first enters, he sees the occasions page
+   Can extend it to show the orders home page, like play store
+   Then, in categories, we can show trending in Occasion1, Trending in Occasion2 and so on..
+   Maybe, some other like recommended for you, Editor's choice, Custom orders from restaurants etc.
+
+
+Technical:
+- for now, only showing one Trending orders section
+    make it into a recycler view with data coming for various sections.
+
+- like play store, try combining search screen on the home page
