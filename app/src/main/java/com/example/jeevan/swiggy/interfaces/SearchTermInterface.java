@@ -1,4 +1,4 @@
-package com.example.jeevan.swiggy;
+package com.example.jeevan.swiggy.interfaces;
 
 import java.util.List;
 

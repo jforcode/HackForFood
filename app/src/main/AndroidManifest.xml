@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".Util.AppController"
+        android:name=".activities.AppContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,8 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.OccasionsActivity" />
-        <activity android:name=".activities.ChooseOrderActivity" />
-        <activity android:name=".activities.CreateOrderActivity" />
+        <activity android:name=".activities.SearchActivity" />
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,8 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ItemsActivity" />
-        <activity android:name=".activities.CheckoutCartActivity"></activity>
+        <activity android:name=".activities.SearchResultActivity" />
+        <activity android:name=".activities.CheckoutCartActivity" />
+        <activity android:name=".activities.OrderHomeActivity" />
+        <activity android:name=".activities.OrderDetailsActivity"></activity>
     </application>
 
 </manifest>

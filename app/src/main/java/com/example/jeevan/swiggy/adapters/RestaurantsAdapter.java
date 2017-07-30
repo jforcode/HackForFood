@@ -13,11 +13,10 @@ import android.widget.TextView;
 import com.example.jeevan.swiggy.R;
 import com.example.jeevan.swiggy.Util.Constants;
 import com.example.jeevan.swiggy.Util.Util;
-import com.example.jeevan.swiggy.activities.ItemsActivity;
+import com.example.jeevan.swiggy.activities.SearchResultActivity;
 import com.example.jeevan.swiggy.models.Restaurant;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,11 +26,11 @@ import butterknife.ButterKnife;
  * Created by jeevan on 7/16/17.
  */
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     List<Restaurant> restaurants;
 
-    public RestaurantAdapter(Context context) {
+    public RestaurantsAdapter(Context context) {
         this.context = context;
         this.restaurants = new ArrayList<>();
     }
@@ -65,7 +64,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ItemsActivity.class);
+                Intent intent = new Intent(context, SearchResultActivity.class);
                 intent.putExtra(Constants.IP_RESTAURANT, restaurant);
                 context.startActivity(intent);
             }

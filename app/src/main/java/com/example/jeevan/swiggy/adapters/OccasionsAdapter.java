@@ -11,9 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
-import com.example.jeevan.swiggy.Util.AppController;
-import com.example.jeevan.swiggy.Util.Constants;
-import com.example.jeevan.swiggy.activities.ChooseOrderActivity;
+import com.example.jeevan.swiggy.activities.AppContext;
 import com.example.jeevan.swiggy.models.Occasion;
 
 import java.util.ArrayList;
@@ -26,11 +24,11 @@ import butterknife.ButterKnife;
  * Created by jeevan on 7/15/17.
  */
 
-public class OccasionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class OccasionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     List<Occasion> occasions;
 
-    public OccasionAdapter(Context context) {
+    public OccasionsAdapter(Context context) {
         this.context = context;
         this.occasions = new ArrayList<>();
     }
@@ -55,11 +53,12 @@ public class OccasionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChooseOrderActivity.class);
-                AppController.getInstance().setOccasion(occasions.get(position));
+                AppContext.getInstance().setOccasion(occasions.get(position));
                 context.startActivity(intent);
             }
         });
         holder.ocassionIcon.setImageResource(occasions.get(position).getDrawable());
+        holder.txtName.setText(occasions.get(position).getOccasion());
         holder.txtDesc.setText(occasions.get(position).getDesc());
     }
 
@@ -73,6 +72,8 @@ public class OccasionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         RelativeLayout parent;
         @BindView(R.id.occasion_icon)
         ImageView ocassionIcon;
+        @BindView(R.id.occasion_name)
+        TextView txtName;
         @BindView(R.id.occasion_desc)
         TextView txtDesc;
 

@@ -8,16 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jeevan.swiggy.R;
-import com.example.jeevan.swiggy.UpdateParentInterface;
-import com.example.jeevan.swiggy.Util.AppController;
 import com.example.jeevan.swiggy.Util.Constants;
-import com.example.jeevan.swiggy.adapters.CheckoutAdapter;
+import com.example.jeevan.swiggy.adapters.OrderDetailsAdapter;
+import com.example.jeevan.swiggy.interfaces.UpdateParentInterface;
 import com.example.jeevan.swiggy.dao.DBTransactions;
 import com.example.jeevan.swiggy.models.Occasion;
 import com.example.jeevan.swiggy.models.Order;
@@ -38,7 +36,7 @@ public class CheckoutCartActivity extends AppCompatActivity implements UpdatePar
     @BindView(R.id.list_order_items)
     RecyclerView listOrderItems;
 
-    CheckoutAdapter adapter;
+    OrderDetailsAdapter adapter;
     Order order;
 
     @Override
@@ -49,17 +47,17 @@ public class CheckoutCartActivity extends AppCompatActivity implements UpdatePar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Order Summary");
-        order = AppController.getInstance().getOrder();
+        order = AppContext.getInstance().getOrder();
         txtTotalBill.setText("\u20B9 " + order.getTotalCost());
-        adapter = new CheckoutAdapter(this, order.getOrderItems());
+        adapter = new OrderDetailsAdapter(this, order.getOrderItems());
         listOrderItems.setAdapter(adapter);
         listOrderItems.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @OnClick(R.id.btn_order)
     public void saveOrder(View view) {
-        User user = AppController.getInstance().getUser();
-        Occasion occasion = AppController.getInstance().getOccasion();
+        User user = AppContext.getInstance().getUser();
+        Occasion occasion = AppContext.getInstance().getOccasion();
         order.setUserId(user.getUserId());
         order.setOccasion(occasion.getOccasion());
         order.setTime(System.currentTimeMillis());
@@ -70,8 +68,9 @@ public class CheckoutCartActivity extends AppCompatActivity implements UpdatePar
         order.setOrderName(orderName);
         DBTransactions.getInstance(this).saveOrder(order);
         if (order.getId() != -1) {
-            Toast.makeText(this, "Order placed!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, OccasionsActivity.class);
+            // to remove all other activities on the stack
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
@@ -88,7 +87,9 @@ public class CheckoutCartActivity extends AppCompatActivity implements UpdatePar
     }
 
     @Override
-    public void update(OrderItem item, long prevQty) {
+    public void update(Bundle bundle) {
+        OrderItem item = bundle.getParcelable(Constants.IP_ORDER_ITEM);
+        long prevQty = bundle.getLong(Constants.IP_ORDER_PREV_QTY);
         for (int i=0;i<order.getOrderItems().size();i++) {
             OrderItem currItem = order.getOrderItems().get(i);
                 if (currItem.getId() == item.getId()) {
@@ -100,7 +101,7 @@ public class CheckoutCartActivity extends AppCompatActivity implements UpdatePar
                     order.getOrderItems().remove(i);
                 }
                 // same ref, so no update there..
-                AppController.getInstance().getBottomTab().updateView();
+                AppContext.getInstance().getBottomTab().updateView();
                 break;
             }
         }

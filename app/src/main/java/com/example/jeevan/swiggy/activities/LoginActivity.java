@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
-import com.example.jeevan.swiggy.Util.AppController;
 import com.example.jeevan.swiggy.dao.DBTransactions;
 import com.example.jeevan.swiggy.models.User;
 
@@ -52,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
             if (user == null) {
                 txtError.setVisibility(View.VISIBLE);
             } else {
-                AppController.getInstance().setUser(user);
+                AppContext.getInstance().setUser(user);
                 Intent intent = new Intent(this, OccasionsActivity.class);
                 startActivity(intent);
                 this.finish();

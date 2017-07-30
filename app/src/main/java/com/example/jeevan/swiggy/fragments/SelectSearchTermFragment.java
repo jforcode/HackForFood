@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.jeevan.swiggy.R;
-import com.example.jeevan.swiggy.SearchTermInterface;
-import com.example.jeevan.swiggy.adapters.SearchTermAdapter;
+import com.example.jeevan.swiggy.adapters.SearchTermsAdapter;
+import com.example.jeevan.swiggy.interfaces.SearchTermInterface;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +52,7 @@ public class SelectSearchTermFragment extends DialogFragment {
         int height = context.getResources().getDimensionPixelSize(R.dimen.search_term_frag_height);
         getDialog().getWindow().setLayout(width, height);
         ButterKnife.bind(this, view);
-        SearchTermAdapter adapter = new SearchTermAdapter(context);
+        SearchTermsAdapter adapter = new SearchTermsAdapter(context);
         listSearchTerms.setAdapter(adapter);
         listSearchTerms.setLayoutManager(new LinearLayoutManager(context));
         adapter.setSearchTerms(searchTermListener.getSearchTerms());

@@ -8,10 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
-import com.example.jeevan.swiggy.SearchTermInterface;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.jeevan.swiggy.interfaces.SearchTermInterface;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,12 +17,12 @@ import butterknife.ButterKnife;
  * Created by jeevan on 7/16/17.
  */
 
-public class SearchTermAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SearchTermsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     String[] searchTerms;
     SearchTermInterface searchTermSelectedListener;
 
-    public SearchTermAdapter(Context context) {
+    public SearchTermsAdapter(Context context) {
         this.context = context;
         if (context instanceof SearchTermInterface) {
             searchTermSelectedListener = (SearchTermInterface) context;

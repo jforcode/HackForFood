@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,20 +16,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
-import com.example.jeevan.swiggy.SearchTermInterface;
-import com.example.jeevan.swiggy.Util.AppController;
-import com.example.jeevan.swiggy.adapters.RestaurantAdapter;
+import com.example.jeevan.swiggy.adapters.RestaurantsAdapter;
+import com.example.jeevan.swiggy.interfaces.SearchTermInterface;
 import com.example.jeevan.swiggy.dao.DBTransactions;
 import com.example.jeevan.swiggy.fragments.SelectSearchTermFragment;
 import com.example.jeevan.swiggy.models.Occasion;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CreateOrderActivity extends AppCompatActivity implements SearchTermInterface {
+public class SearchActivity extends AppCompatActivity implements SearchTermInterface {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.pre_determined_terms)
@@ -43,7 +39,7 @@ public class CreateOrderActivity extends AppCompatActivity implements SearchTerm
     RecyclerView listSearchResults;
 
     DBTransactions transactions;
-    RestaurantAdapter adapter;
+    RestaurantsAdapter adapter;
     Occasion occasion;
 
     @Override
@@ -53,11 +49,11 @@ public class CreateOrderActivity extends AppCompatActivity implements SearchTerm
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        occasion = AppController.getInstance().getOccasion();
+        occasion = AppContext.getInstance().getOccasion();
         getSupportActionBar().setTitle(occasion.getOccasion());
 
         transactions = DBTransactions.getInstance(this);
-        adapter = new RestaurantAdapter(this);
+        adapter = new RestaurantsAdapter(this);
         listSearchResults.setAdapter(adapter);
         listSearchResults.setLayoutManager(new LinearLayoutManager(this));
         search("");
@@ -132,6 +128,5 @@ public class CreateOrderActivity extends AppCompatActivity implements SearchTerm
     @Override
     protected void onResume() {
         super.onResume();
-        AppController.getInstance().getBottomTab().updateView();
     }
 }

@@ -1,8 +1,7 @@
 package com.example.jeevan.swiggy.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
-import com.example.jeevan.swiggy.UpdateParentInterface;
-import com.example.jeevan.swiggy.Util.AppController;
+import com.example.jeevan.swiggy.Util.Constants;
+import com.example.jeevan.swiggy.interfaces.UpdateParentInterface;
 import com.example.jeevan.swiggy.Util.Util;
-import com.example.jeevan.swiggy.models.MenuItem;
 import com.example.jeevan.swiggy.models.OrderItem;
 
 import java.util.ArrayList;
@@ -29,17 +27,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ * TODO: maybe combine this with the MenuItemsAdapter
  * Created by jeevan on 7/16/17.
  */
 
-public class CheckoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     int VIEW_TYPE_RESTAURANT = 1, VIEW_TYPE_MENU_ITEM = 2;
     Context context;
     UpdateParentInterface parentListener;
     List<Object> objects;
     Set<Integer> restaurantPosMap;
 
-    public CheckoutAdapter(Context context, List<OrderItem> listOrderItems) {
+    public OrderDetailsAdapter(Context context, List<OrderItem> listOrderItems) {
         this.context = context;
         if (context instanceof UpdateParentInterface) {
             parentListener = (UpdateParentInterface) context;
@@ -115,13 +114,19 @@ public class CheckoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     long prevQty = orderItem.getQty();
                     orderItem.setQty(orderItem.getQty() + 1);
                     holder.txtQty.setText(orderItem.getQty()+"");
-                    parentListener.update(orderItem, prevQty);
+                    Bundle data = new Bundle();
+                    data.putParcelable(Constants.IP_ORDER_ITEM, orderItem);
+                    data.putLong(Constants.IP_ORDER_PREV_QTY, prevQty);
+                    parentListener.update(data);
                 }
             });
             holder.btnMinusQty.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     long prevQty = orderItem.getQty();
+                    Bundle data = new Bundle();
+                    data.putParcelable(Constants.IP_ORDER_ITEM, orderItem);
+                    data.putLong(Constants.IP_ORDER_PREV_QTY, prevQty);
                     if (orderItem.getQty() == 1) {
                         // delete this
                         orderItem.setQty(0);
@@ -136,13 +141,13 @@ public class CheckoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         } else {
                             objects.remove(position);
                         }
-                        parentListener.update(orderItem, prevQty);
+                        parentListener.update(data);
                         updatePosMap();
                         notifyDataSetChanged();
                     } else {
                         orderItem.setQty(orderItem.getQty() - 1);
                         holder.txtQty.setText(orderItem.getQty()+"");
-                        parentListener.update(orderItem, prevQty);
+                        parentListener.update(data);
                     }
                 }
             });

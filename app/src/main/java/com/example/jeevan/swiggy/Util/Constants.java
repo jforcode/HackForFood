@@ -6,7 +6,11 @@ package com.example.jeevan.swiggy.Util;
 
 public class Constants {
     public static final String IP_RESTAURANT = "RESTAURANT";
-
-    public static final int RQ_ORDER_SAVED = 1;
-    public static final int RS_ORDER_SAVED = 2;
+    public static final String IP_ORDER = "ORDER";
+    public static final String IP_ORDER_CAT_ID = "ORDER_CAT_ID";
+    public static final String IP_ACTION = "ACTION";
+    public static final String IP_ORDER_ITEM = "ORDER_ITEM";
+    public static final String IP_ORDER_PREV_QTY = "PREV_QTY";
+    public static final int ACTION_SHOW_MORE = 1;
+    public static final int ACTION_ADD_TO_CART = 2;
 }

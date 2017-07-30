@@ -19,7 +19,6 @@
     <string name="Dec">Dec</string>
     <string name="UnDec">UnDec</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rupee_string">/u20B9</string>
 
 </resources>

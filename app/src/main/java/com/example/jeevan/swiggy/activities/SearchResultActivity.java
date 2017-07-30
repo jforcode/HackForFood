@@ -7,14 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
-import com.example.jeevan.swiggy.Util.AppController;
 import com.example.jeevan.swiggy.Util.Constants;
 import com.example.jeevan.swiggy.Util.Util;
-import com.example.jeevan.swiggy.adapters.MenuItemAdapter;
+import com.example.jeevan.swiggy.adapters.MenuItemsAdapter;
 import com.example.jeevan.swiggy.dao.DBTransactions;
 import com.example.jeevan.swiggy.models.Occasion;
 import com.example.jeevan.swiggy.models.Restaurant;
@@ -22,7 +20,7 @@ import com.example.jeevan.swiggy.models.Restaurant;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ItemsActivity extends AppCompatActivity {
+public class SearchResultActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.rest_name)
@@ -34,22 +32,23 @@ public class ItemsActivity extends AppCompatActivity {
     @BindView(R.id.bottom_order_layout)
     View bottomLayout;
 
+    SummaryViewController summaryViewController;
     Restaurant restaurant;
     Occasion occasion;
-    MenuItemAdapter adapter;
+    MenuItemsAdapter adapter;
     DBTransactions transactions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_items);
+        setContentView(R.layout.activity_search_results);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
         restaurant = getIntent().getParcelableExtra(Constants.IP_RESTAURANT);
-        occasion = AppController.getInstance().getOccasion();
+        occasion = AppContext.getInstance().getOccasion();
         transactions = DBTransactions.getInstance(this);
-        AppController.getInstance().getBottomTab().setBottomTabView(bottomLayout);
+        summaryViewController = new SummaryViewController(this, bottomLayout);
 
         getSupportActionBar().setTitle(" ");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,11 +56,17 @@ public class ItemsActivity extends AppCompatActivity {
         txtRestName.setText(restaurant.getName().toUpperCase());
         txtRestCuisines.setText(Util.getString(restaurant.getCuisines()));
 
-        adapter = new MenuItemAdapter(this);
+        adapter = new MenuItemsAdapter(this);
         listMenuItems.setAdapter(adapter);
         listMenuItems.setLayoutManager(new LinearLayoutManager(this));
 
         adapter.setItems(transactions.getMenuItems(restaurant));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        summaryViewController.updateView(AppContext.getInstance().getOrder().getQty(), AppContext.getInstance().getOrder().getTotalCost());
     }
 
     @Override

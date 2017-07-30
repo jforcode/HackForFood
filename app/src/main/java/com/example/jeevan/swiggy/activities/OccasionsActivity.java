@@ -7,8 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.example.jeevan.swiggy.R;
-import com.example.jeevan.swiggy.Util.AppController;
-import com.example.jeevan.swiggy.adapters.OccasionAdapter;
+import com.example.jeevan.swiggy.adapters.OccasionsAdapter;
 import com.example.jeevan.swiggy.dao.DBTransactions;
 import com.example.jeevan.swiggy.models.Occasion;
 
@@ -23,7 +22,7 @@ public class OccasionsActivity extends AppCompatActivity {
     @BindView(R.id.list_occasions)
     RecyclerView listOccasions;
 
-    OccasionAdapter adapter;
+    OccasionsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +30,9 @@ public class OccasionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_occasions);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Hi " + AppController.getInstance().getUser().getUserName());
+        getSupportActionBar().setTitle("Hi " + AppContext.getInstance().getUser().getUserName());
 
-        adapter = new OccasionAdapter(this);
+        adapter = new OccasionsAdapter(this);
         listOccasions.setAdapter(adapter);
         listOccasions.setLayoutManager(new LinearLayoutManager(this));
 

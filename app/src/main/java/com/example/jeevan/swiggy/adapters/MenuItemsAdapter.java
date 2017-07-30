@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
-import com.example.jeevan.swiggy.Util.AppController;
+import com.example.jeevan.swiggy.activities.AppContext;
 import com.example.jeevan.swiggy.Util.Util;
 import com.example.jeevan.swiggy.models.MenuItem;
 
@@ -24,12 +24,12 @@ import butterknife.ButterKnife;
  * Created by jeevan on 7/16/17.
  */
 
-public class MenuItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     List<MenuItem> items;
     int[] qty;
 
-    public MenuItemAdapter(Context context) {
+    public MenuItemsAdapter(Context context) {
         this.context = context;
         this.items = new ArrayList<>();
         this.qty = new int[items.size()];
@@ -56,7 +56,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         holder.iconItem.setImageDrawable(Util.getNameDrawable(menuItem.getName()));
         holder.txtItemName.setText(menuItem.getName());
         holder.txtItemPrice.setText("\u20B9 " + menuItem.getPrice());
-        qty[position] = (int) AppController.getInstance().getQty(menuItem.getId());
+        qty[position] = (int) AppContext.getInstance().getQty(menuItem.getId());
         if (qty[position] == 0) {
             holder.btnAddItemToOrder.setVisibility(View.VISIBLE);
             holder.btnPlusQty.setVisibility(View.GONE);
@@ -80,7 +80,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
                 qty[position]++;
                 holder.txtQty.setText(qty[position]+"");
-                AppController.getInstance().addItem(items.get(position));
+                AppContext.getInstance().addItem(items.get(position));
             }
         });
         holder.btnMinusQty.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +94,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
                 qty[position]--;
                 holder.txtQty.setText(qty[position]+"");
-                AppController.getInstance().minusItem(items.get(position));
+                AppContext.getInstance().minusItem(items.get(position));
 
             }
         });
@@ -107,7 +107,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 holder.btnMinusQty.setVisibility(View.VISIBLE);
                 holder.txtQty.setVisibility(View.VISIBLE);
                 holder.txtQty.setText(qty[position]+"");
-                AppController.getInstance().addItem(items.get(position));
+                AppContext.getInstance().addItem(items.get(position));
             }
         });
     }
