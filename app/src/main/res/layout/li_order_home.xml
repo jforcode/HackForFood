@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="4dp"
+    android:layout_marginLeft="@dimen/general_margin"
+    android:layout_width="@dimen/list_orders_width"
+    android:layout_height="@dimen/list_orders_height">
+
+    <RelativeLayout
+        android:id="@+id/li_order_parent"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/li_order_icon"
+            android:src="@drawable/occasion_chilling"
+            android:layout_marginBottom="4dp"
+            android:layout_width="@dimen/li_home_order_icon_width"
+            android:layout_height="@dimen/li_home_order_icon_height" />
+
+        <TextView
+            android:id="@+id/li_order_name"
+            android:layout_below="@id/li_order_icon"
+            android:text="Order Name"
+            android:textColor="@android:color/primary_text_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/li_user_name"
+            android:layout_below="@id/li_order_name"
+            android:text="Jeevan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/li_btn_options"
+            android:background="@drawable/ic_clear_black_24dp"
+            android:layout_below="@id/li_order_icon"
+            android:layout_alignParentRight="true"
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+
+        <TextView
+            android:id="@+id/li_order_total_price"
+            android:layout_below="@id/li_order_icon"
+            android:layout_toLeftOf="@id/li_btn_options"
+            android:layout_marginRight="@dimen/general_margin"
+            android:text="\u20B9 500"
+            android:textColor="@android:color/primary_text_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

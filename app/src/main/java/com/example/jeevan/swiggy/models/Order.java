@@ -13,7 +13,8 @@ import java.util.List;
 
 public class Order implements Parcelable {
     // describe a custom swiggy order
-    long id, userId;
+    long id;
+    User user;
     List<OrderItem> orderItems;
     long qty;
     String orderName;
@@ -27,30 +28,12 @@ public class Order implements Parcelable {
 
     protected Order(Parcel in) {
         id = in.readLong();
-        userId = in.readLong();
         orderItems = in.createTypedArrayList(OrderItem.CREATOR);
         qty = in.readLong();
         orderName = in.readString();
         occasion = in.readString();
         totalCost = in.readDouble();
         time = in.readLong();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeLong(userId);
-        dest.writeTypedList(orderItems);
-        dest.writeLong(qty);
-        dest.writeString(orderName);
-        dest.writeString(occasion);
-        dest.writeDouble(totalCost);
-        dest.writeLong(time);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     public static final Creator<Order> CREATOR = new Creator<Order>() {
@@ -73,12 +56,12 @@ public class Order implements Parcelable {
         this.qty = qty;
     }
 
-    public long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getOrderName() {
@@ -222,5 +205,20 @@ public class Order implements Parcelable {
         this.setQty(qty);
         
     }
-    
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeTypedList(orderItems);
+        dest.writeLong(qty);
+        dest.writeString(orderName);
+        dest.writeString(occasion);
+        dest.writeDouble(totalCost);
+        dest.writeLong(time);
+    }
 }

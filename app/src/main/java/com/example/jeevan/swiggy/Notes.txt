@@ -22,3 +22,5 @@ Technical:
     make it into a recycler view with data coming for various sections.
 
 - like play store, try combining search screen on the home page
+
+- include order rating also, maybe build a system to give ratings and all.
