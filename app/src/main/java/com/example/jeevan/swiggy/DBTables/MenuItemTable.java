@@ -24,13 +24,13 @@ public class MenuItemTable {
     public static final String INIT_INSERT = "INSERT INTO " + TABLE_NAME +
             "(" + KEY_REST_ID + ", " + KEY_NAME + ", " + KEY_PRICE + ")" +
             " VALUES " +
-            "(1, \"CHICKEN WINGS\", 195)," +
-            "(1, \"BLUEBERRY CHEESE CAKE\", 120)," +
-            "(1, \"FRIES\", 105)," +
-            "(2, \"GADBAD SUNDAE\", 150)," +
-            "(2, \"BLACK MAGIC\", 130)," +
-            "(2, \"ARABIAN DATES ICE CREAM\", 80)," +
-            "(3, \"BIRYANI\", 200)," +
-            "(3, \"MINI TIFFIN\", 115)," +
-            "(3, \"IDLI\", 50)";
+            "(1, \"Chicken Wings\", 195)," +
+            "(1, \"Blueberry Cheese Cake\", 120)," +
+            "(1, \"Fries\", 105)," +
+            "(2, \"Gadbad Sundae\", 150)," +
+            "(2, \"Black Magic\", 130)," +
+            "(2, \"Arabian Dates Ice Cream\", 80)," +
+            "(3, \"Biryani\", 200)," +
+            "(3, \"Mini Tiffin\", 115)," +
+            "(3, \"Idli\", 50)";
 }

@@ -1,3 +1,7 @@
+TODO:
+
+
+
 Current implementation:
 - just to show off the concept
 - focus on basic functionality, and UI

@@ -23,8 +23,8 @@ public class RestaurantsTable {
     public static final String INIT_INSERT = "INSERT INTO " + TABLE_NAME +
             "(" + KEY_NAME + ", " + KEY_CUISINES + ", " + KEY_OCCASIONS + ") " +
             " VALUES " +
-            "(\"Truffles\", \"Cafe,American,Pizza\", \"HANGOUT\")," +
-            "(\"Polar Bear\", \"Desserts,Fast Food\", \"HANGOUT,BIRTHDAY,TREAT\")," +
-            "(\"A2B\", \"North Indian,Chinese\", \"REGULARS\")";
+            "(\"Truffles\", \"Cafe,American,Pizza\", \"Hangout\")," +
+            "(\"Polar Bear\", \"Desserts,Fast Food\", \"Hangout,Birthday,Treat\")," +
+            "(\"A2B\", \"North Indian,Chinese\", \"Regulars\")";
 
 }

@@ -67,7 +67,7 @@ public class DBTransactions {
         Order order = new Order();
         order.setId(cursor.getLong(cursor.getColumnIndex(OrderTable.KEY_ID)));
         order.setOrderName(cursor.getString(cursor.getColumnIndex(OrderTable.KEY_NAME)));
-        order.setUserId(cursor.getLong(cursor.getColumnIndex(OrderTable.KEY_USER_ID)));
+        order.setUser(getUser(cursor.getLong(cursor.getColumnIndex(OrderTable.KEY_USER_ID))));
         order.setOccasion(cursor.getString(cursor.getColumnIndex(OrderTable.KEY_OCCASION)));
         order.setTime(cursor.getLong(cursor.getColumnIndex(OrderTable.KEY_TIME)));
         order.setTotalCost(cursor.getDouble(cursor.getColumnIndex(OrderTable.KEY_TOTAL_COST)));
@@ -106,6 +106,22 @@ public class DBTransactions {
             user.setUserName(cursor.getString(cursor.getColumnIndex(UserTable.KEY_NAME)));
         }
         if (cursor != null) cursor.close();
+        return user;
+    }
+
+    public User getUser(long userId) {
+        String where = UserTable.KEY_ID + " = ?";
+        String[] args = {String.valueOf(userId)};
+        Cursor cursor = db.query(UserTable.TABLE_NAME, null, where, args, null, null, null, null);
+        User user = null;
+        if (cursor.moveToNext()) {
+            user = new User();
+            user.setUserId(cursor.getLong(cursor.getColumnIndex(UserTable.KEY_ID)));
+            user.setUserName(cursor.getString(cursor.getColumnIndex(UserTable.KEY_NAME)));
+        }
+        if (cursor != null) {
+            cursor.close();
+        }
         return user;
     }
 
@@ -237,7 +253,7 @@ public class DBTransactions {
     private ContentValues getContentValues(Order order) {
         ContentValues values = new ContentValues();
         values.put(OrderTable.KEY_NAME, order.getOrderName());
-        values.put(OrderTable.KEY_USER_ID, order.getUserId());
+        values.put(OrderTable.KEY_USER_ID, order.getUser().getUserId());
         values.put(OrderTable.KEY_OCCASION, order.getOccasion());
         values.put(OrderTable.KEY_TIME, order.getTime());
         values.put(OrderTable.KEY_TOTAL_COST, order.getTotalCost());

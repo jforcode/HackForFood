@@ -21,6 +21,6 @@ public class OccasionTable {
     public static final String INIT_INSERT = "INSERT INTO " + TABLE_NAME +
             "(" + KEY_OCCASION + ", " + KEY_TERMS + ", " + KEY_DESC + ")" +
             " VALUES " +
-            "(\"HANGOUT\", \"Pizza,Rolls,Beverages,Burger\", \"Chilling with friends, order a quick bite!\")," +
-            "(\"REGULARS\", \"Meals,Breakfast,Dinner\", \"Order the everyday regular!\")";
+            "(\"Hangout\", \"Pizza,Rolls,Beverages,Burger\", \"Chilling with friends, order a quick bite!\")," +
+            "(\"Regulars\", \"Meals,Breakfast,Dinner\", \"Order the everyday regular!\")";
 }

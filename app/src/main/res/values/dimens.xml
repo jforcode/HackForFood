@@ -3,10 +3,9 @@
     <dimen name="dimen_occasion">56dp</dimen>
     <dimen name="general_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="list_orders_width">320dp</dimen>
     <dimen name="list_orders_height">280dp</dimen>
-    <dimen name="li_home_order_icon_width">320dp</dimen>
-    <dimen name="li_home_order_icon_height">200dp</dimen>
+    <dimen name="li_home_order_icon_width">340dp</dimen>
+    <dimen name="li_home_order_icon_height">220dp</dimen>
     <dimen name="search_term_frag_width">100dp</dimen>
     <dimen name="search_term_frag_height">200dp</dimen>
 </resources>

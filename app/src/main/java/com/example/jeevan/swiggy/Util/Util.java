@@ -25,6 +25,7 @@ public abstract class Util {
     static int[] months = {R.string.Jan, R.string.Feb, R.string.Mar, R.string.Apr, R.string.May, R.string.June,
             R.string.July, R.string.Aug, R.string.Sept, R.string.Oct, R.string.Nov, R.string.Dec, R.string.UnDec};
     static ColorGenerator generator = ColorGenerator.MATERIAL;
+    static Snackbar mSnackbar;
 
     public static TextDrawable getNameDrawable(String name) {
         if (name == null || name.isEmpty()) name = " ";
@@ -63,10 +64,13 @@ public abstract class Util {
     public static void showSummarySnackbar(final Context context, CoordinatorLayout parent) {
         Order order = AppContext.getInstance().getOrder();
         if (order.getQty() == 0) {
+            if (mSnackbar != null) {
+                mSnackbar.dismiss();
+            }
             return;
         }
-        String summaryS = order.getQty() + " items | \u20B9" + order.getTime();
-        Snackbar mSnackbar = Snackbar.make(parent, summaryS, Snackbar.LENGTH_INDEFINITE)
+        String summaryS = order.getQty() + " items | \u20B9" + order.getTotalCost();
+        mSnackbar = Snackbar.make(parent, summaryS, Snackbar.LENGTH_INDEFINITE)
                 .setAction("SHOW CART", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -2,8 +2,10 @@ package com.example.jeevan.swiggy.activities;
 
 import android.app.Application;
 
+import com.example.jeevan.swiggy.models.MenuItem;
 import com.example.jeevan.swiggy.models.Occasion;
 import com.example.jeevan.swiggy.models.Order;
+import com.example.jeevan.swiggy.models.OrderItem;
 import com.example.jeevan.swiggy.models.User;
 
 public class AppContext extends Application {
@@ -42,6 +44,20 @@ public class AppContext extends Application {
 
     public static synchronized AppContext getInstance() {
         return mInstance;
+    }
+
+    public long getCurrQtyForItem(long menuItemId) {
+        return order.getQtyForItem(menuItemId);
+    }
+
+    public void increaseQtyForItem(MenuItem menuItem) {
+        // increase the qty for this item, if it is not present in the order, add it
+        order.increaseItemQty(menuItem);
+    }
+
+    public void decreaseQtyForItem(long itemId) {
+        // decrease the qty for this item, if it is reduced to 0, remove it from the order
+        order.decreaseItemQty(itemId);
     }
 
 }

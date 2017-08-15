@@ -1,6 +1,7 @@
 package com.example.jeevan.swiggy.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
+import com.example.jeevan.swiggy.Util.Util;
 import com.example.jeevan.swiggy.adapters.RestaurantsAdapter;
 import com.example.jeevan.swiggy.interfaces.SearchTermInterface;
 import com.example.jeevan.swiggy.dao.DBTransactions;
@@ -37,6 +39,8 @@ public class SearchActivity extends AppCompatActivity implements SearchTermInter
     TextView txtCurrSearchTerm;
     @BindView(R.id.list_results)
     RecyclerView listSearchResults;
+    @BindView(R.id.coordinator)
+    CoordinatorLayout parent;
 
     DBTransactions transactions;
     RestaurantsAdapter adapter;
@@ -128,5 +132,6 @@ public class SearchActivity extends AppCompatActivity implements SearchTermInter
     @Override
     protected void onResume() {
         super.onResume();
+        Util.showSummarySnackbar(this, parent);
     }
 }

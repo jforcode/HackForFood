@@ -1,5 +1,6 @@
 package com.example.jeevan.swiggy.activities;
 
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
@@ -14,25 +16,27 @@ import com.example.jeevan.swiggy.Util.Constants;
 import com.example.jeevan.swiggy.Util.Util;
 import com.example.jeevan.swiggy.adapters.MenuItemsAdapter;
 import com.example.jeevan.swiggy.dao.DBTransactions;
+import com.example.jeevan.swiggy.interfaces.UpdateParentInterface;
 import com.example.jeevan.swiggy.models.Occasion;
 import com.example.jeevan.swiggy.models.Restaurant;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SearchResultActivity extends AppCompatActivity {
+public class SearchResultActivity extends AppCompatActivity implements UpdateParentInterface {
+    @BindView(R.id.parent)
+    CoordinatorLayout parent;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.rest_icon)
+    ImageView imgRestIcon;
     @BindView(R.id.rest_name)
     TextView txtRestName;
     @BindView(R.id.rest_cuisines)
     TextView txtRestCuisines;
     @BindView(R.id.list_menu_items)
     RecyclerView listMenuItems;
-    @BindView(R.id.bottom_order_layout)
-    View bottomLayout;
 
-    SummaryViewController summaryViewController;
     Restaurant restaurant;
     Occasion occasion;
     MenuItemsAdapter adapter;
@@ -48,12 +52,12 @@ public class SearchResultActivity extends AppCompatActivity {
         restaurant = getIntent().getParcelableExtra(Constants.IP_RESTAURANT);
         occasion = AppContext.getInstance().getOccasion();
         transactions = DBTransactions.getInstance(this);
-        summaryViewController = new SummaryViewController(this, bottomLayout);
 
         getSupportActionBar().setTitle(" ");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        txtRestName.setText(restaurant.getName().toUpperCase());
+        imgRestIcon.setImageDrawable(Util.getNameDrawable(restaurant.getName()));
+        txtRestName.setText(restaurant.getName());
         txtRestCuisines.setText(Util.getString(restaurant.getCuisines()));
 
         adapter = new MenuItemsAdapter(this);
@@ -66,7 +70,7 @@ public class SearchResultActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        summaryViewController.updateView(AppContext.getInstance().getOrder().getQty(), AppContext.getInstance().getOrder().getTotalCost());
+        Util.showSummarySnackbar(this, parent);
     }
 
     @Override
@@ -76,5 +80,10 @@ public class SearchResultActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void update(Bundle bundle) {
+        Util.showSummarySnackbar(this, parent);
     }
 }

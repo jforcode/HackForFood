@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.jeevan.swiggy.R;
 import com.example.jeevan.swiggy.activities.AppContext;
 import com.example.jeevan.swiggy.Util.Util;
+import com.example.jeevan.swiggy.interfaces.UpdateParentInterface;
 import com.example.jeevan.swiggy.models.MenuItem;
 
 import java.util.ArrayList;
@@ -25,21 +26,25 @@ import butterknife.ButterKnife;
  */
 
 public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    Context context;
-    List<MenuItem> items;
-    int[] qty;
+    private Context context;
+    private List<MenuItem> items;
+    private long[] qty;
+    private UpdateParentInterface parentUpdateListener;
 
     public MenuItemsAdapter(Context context) {
         this.context = context;
         this.items = new ArrayList<>();
-        this.qty = new int[items.size()];
+        this.qty = new long[items.size()];
+        if (context instanceof UpdateParentInterface) {
+            parentUpdateListener = (UpdateParentInterface) context;
+        }
     }
 
     public void setItems(List<MenuItem> items) {
         if (items != null) {
             this.items.clear();
             this.items.addAll(items);
-            this.qty = new int[items.size()];
+            this.qty = new long[items.size()];
             notifyDataSetChanged();
         }
     }
@@ -51,12 +56,13 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder1, final int position) {
-        MenuItem menuItem = items.get(position);
+        final MenuItem menuItem = items.get(position);
         final MenuItemViewHolder holder = (MenuItemViewHolder) holder1;
         holder.iconItem.setImageDrawable(Util.getNameDrawable(menuItem.getName()));
         holder.txtItemName.setText(menuItem.getName());
         holder.txtItemPrice.setText("\u20B9 " + menuItem.getPrice());
-        qty[position] = (int) AppContext.getInstance().getQty(menuItem.getId());
+        // get the current qty for this item
+        qty[position] = AppContext.getInstance().getCurrQtyForItem(menuItem.getId());
         if (qty[position] == 0) {
             holder.btnAddItemToOrder.setVisibility(View.VISIBLE);
             holder.btnPlusQty.setVisibility(View.GONE);
@@ -69,9 +75,11 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.txtQty.setVisibility(View.VISIBLE);
             holder.txtQty.setText(qty[position]+"");
         }
+
         holder.btnPlusQty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // increase qty
                 if (qty[position] == 0) {
                     holder.btnAddItemToOrder.setVisibility(View.GONE);
                     holder.btnPlusQty.setVisibility(View.VISIBLE);
@@ -80,7 +88,8 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
                 qty[position]++;
                 holder.txtQty.setText(qty[position]+"");
-                AppContext.getInstance().addItem(items.get(position));
+                AppContext.getInstance().increaseQtyForItem(menuItem);
+                parentUpdateListener.update(null);
             }
         });
         holder.btnMinusQty.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +103,8 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
                 qty[position]--;
                 holder.txtQty.setText(qty[position]+"");
-                AppContext.getInstance().minusItem(items.get(position));
+                AppContext.getInstance().decreaseQtyForItem(menuItem.getId());
+                parentUpdateListener.update(null);
 
             }
         });
@@ -107,7 +117,8 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 holder.btnMinusQty.setVisibility(View.VISIBLE);
                 holder.txtQty.setVisibility(View.VISIBLE);
                 holder.txtQty.setText(qty[position]+"");
-                AppContext.getInstance().addItem(items.get(position));
+                AppContext.getInstance().increaseQtyForItem(items.get(position));
+                parentUpdateListener.update(null);
             }
         });
     }

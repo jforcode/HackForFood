@@ -50,9 +50,11 @@ public class OrderHomeActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(occasion);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        dbTransactions = DBTransactions.getInstance(this);
+
         orderAdapter = new HomeOrderAdapter(this);
         listTrendingOrders.setAdapter(orderAdapter);
-        listTrendingOrders.setLayoutManager(new LinearLayoutManager(this));
+        listTrendingOrders.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         fillLists();
     }

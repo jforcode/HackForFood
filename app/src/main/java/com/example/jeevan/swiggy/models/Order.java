@@ -15,6 +15,7 @@ public class Order implements Parcelable {
     // describe a custom swiggy order
     long id;
     User user;
+    // should change this to
     List<OrderItem> orderItems;
     long qty;
     String orderName;
@@ -112,100 +113,6 @@ public class Order implements Parcelable {
         this.totalCost = totalCost;
     }
 
-
-    public void addItem(MenuItem item) {
-        // it means add one qty of given item
-        boolean found = false;
-        for (OrderItem orderItem : this.getOrderItems()) {
-            if (orderItem.getMenuItem().getId() == item.getId()) {
-                this.setQty(this.getQty() + 1);
-                this.setTotalCost(this.getTotalCost() + item.getPrice());
-                orderItem.setQty(orderItem.getQty() + 1);
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setQty(1);
-            orderItem.setMenuItem(item);
-            this.getOrderItems().add(orderItem);
-            this.setQty(this.getQty() + 1);
-            this.setTotalCost(this.getTotalCost() + item.getPrice());
-
-        }
-        // update the bottom layout
-        
-    }
-
-    public void minusItem(MenuItem item) {
-        // remove one qty of the item
-        int ind = 0, indToRemove = -1;
-        for (OrderItem orderItem : this.getOrderItems()) {
-            if (orderItem.getMenuItem().getId() == item.getId()) {
-                this.setQty(this.getQty() - 1);
-                this.setTotalCost(this.getTotalCost() - item.getPrice());
-                orderItem.setQty(orderItem.getQty() - 1);
-                if (orderItem.getQty() == 0) {
-                    // delete thix item
-                    indToRemove = ind;
-                }
-                break;
-            }
-            ind++;
-        }
-        if (indToRemove > -1) {
-            this.getOrderItems().remove(indToRemove);
-        }
-    }
-
-    public void resetOrder() {
-        this.setOccasion(null);
-        this.getOrderItems().clear();
-        this.setTotalCost(0);
-        this.setQty(0);
-        
-    }
-
-    // order modifying functions
-    public void mergeOrder(Order otherOrder) {
-        if (otherOrder == null) return;
-        // merge the given order into the current order
-        Collections.sort(this.getOrderItems());
-        Collections.sort(otherOrder.getOrderItems());
-        ArrayList<OrderItem> toAdd = new ArrayList<>();
-        int orderSize = this.getOrderItems().size();
-        int otherOrderSize = otherOrder.getOrderItems().size();
-        int i=0, j=0;
-        long qty = 0;
-        for (;i<orderSize && j<otherOrderSize;) {
-            OrderItem orderItem = this.getOrderItems().get(i);
-            OrderItem otherOrderItem = otherOrder.getOrderItems().get(j);
-            int comp = orderItem.compareTo(otherOrderItem);
-            if (comp == 0) {
-                orderItem.setQty(orderItem.getQty() + otherOrderItem.getQty());
-                qty += orderItem.getQty();
-                i++;
-                j++;
-            } else if (comp < 0) {
-                i++;
-                qty += orderItem.getQty();
-            } else {
-                toAdd.add(otherOrderItem);
-                qty += otherOrderItem.getQty();
-                j++;
-            }
-        }
-        this.getOrderItems().addAll(toAdd);
-        for (;j<otherOrderSize;j++) {
-            this.getOrderItems().add(otherOrder.getOrderItems().get(j));
-            qty += otherOrder.getOrderItems().get(j).getQty();
-        }
-        this.setTotalCost(this.getTotalCost() + otherOrder.getTotalCost());
-        this.setQty(qty);
-        
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -220,5 +127,49 @@ public class Order implements Parcelable {
         dest.writeString(occasion);
         dest.writeDouble(totalCost);
         dest.writeLong(time);
+    }
+
+    public long getQtyForItem(long menuItemId) {
+        for (OrderItem orderItem : orderItems) {
+            if (orderItem.getMenuItem().getId() == menuItemId) {
+                return orderItem.getQty();
+            }
+        }
+        return 0;
+    }
+
+    public void increaseItemQty(MenuItem item) {
+        for (OrderItem orderItem : orderItems) {
+            if (orderItem.getMenuItem().getId() == item.getId()) {
+                orderItem.setQty(orderItem.getQty() + 1);
+                qty++;
+                totalCost += item.getPrice();
+                return;
+            }
+        }
+        OrderItem newOrderItem = new OrderItem();
+        newOrderItem.setQty(1);
+        newOrderItem.setMenuItem(item);
+        newOrderItem.setOrderId(id);
+        orderItems.add(newOrderItem);
+        qty++;
+        totalCost += item.getPrice();
+    }
+
+    public void decreaseItemQty(long itemId) {
+        for (int i=0;i<orderItems.size();i++) {
+            OrderItem orderItem = orderItems.get(i);
+            if (orderItem.getMenuItem().getId() == itemId) {
+                double price = orderItem.getMenuItem().getPrice();
+                if (orderItem.getQty() == 1) {
+                    orderItems.remove(i);
+                } else {
+                    orderItem.setQty(orderItem.getQty() - 1);
+                }
+                qty--;
+                totalCost -= price;
+                return;
+            }
+        }
     }
 }

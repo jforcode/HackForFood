@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CheckoutCartActivity extends AppCompatActivity implements UpdateParentInterface{
+public class CheckoutCartActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.order_name)
@@ -56,24 +56,8 @@ public class CheckoutCartActivity extends AppCompatActivity implements UpdatePar
 
     @OnClick(R.id.btn_order)
     public void saveOrder(View view) {
-        User user = AppContext.getInstance().getUser();
-        Occasion occasion = AppContext.getInstance().getOccasion();
-        order.setUserId(user.getUserId());
-        order.setOccasion(occasion.getOccasion());
-        order.setTime(System.currentTimeMillis());
-        String orderName = txtOrderName.getText().toString();
-        if (orderName.isEmpty()) {
-            orderName = user.getUserName() + "-" + occasion.getOccasion();
-        }
-        order.setOrderName(orderName);
-        DBTransactions.getInstance(this).saveOrder(order);
-        if (order.getId() != -1) {
-            Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, OccasionsActivity.class);
-            // to remove all other activities on the stack
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
+        // to remove all activities on stack
+        // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     }
 
     @Override
@@ -84,27 +68,5 @@ public class CheckoutCartActivity extends AppCompatActivity implements UpdatePar
                 break;
         }
         return true;
-    }
-
-    @Override
-    public void update(Bundle bundle) {
-        OrderItem item = bundle.getParcelable(Constants.IP_ORDER_ITEM);
-        long prevQty = bundle.getLong(Constants.IP_ORDER_PREV_QTY);
-        for (int i=0;i<order.getOrderItems().size();i++) {
-            OrderItem currItem = order.getOrderItems().get(i);
-                if (currItem.getId() == item.getId()) {
-                long diff = -prevQty + item.getQty();
-                order.setQty(order.getQty() + diff);
-                order.setTotalCost(order.getTotalCost() + diff*item.getMenuItem().getPrice());
-                currItem.setQty(item.getQty());
-                if (item.getQty() == 0) {
-                    order.getOrderItems().remove(i);
-                }
-                // same ref, so no update there..
-                AppContext.getInstance().getBottomTab().updateView();
-                break;
-            }
-        }
-        txtTotalBill.setText("\u20B9 " + order.getTotalCost());
     }
 }
