@@ -38,6 +38,7 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (context instanceof UpdateParentInterface) {
             parentUpdateListener = (UpdateParentInterface) context;
         }
+        updateQtys();
     }
 
     public void setItems(List<MenuItem> items) {
@@ -45,6 +46,7 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             this.items.clear();
             this.items.addAll(items);
             this.qty = new long[items.size()];
+            updateQtys();
             notifyDataSetChanged();
         }
     }
@@ -62,7 +64,6 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         holder.txtItemName.setText(menuItem.getName());
         holder.txtItemPrice.setText("\u20B9 " + menuItem.getPrice());
         // get the current qty for this item
-        qty[position] = AppContext.getInstance().getCurrQtyForItem(menuItem.getId());
         if (qty[position] == 0) {
             holder.btnAddItemToOrder.setVisibility(View.VISIBLE);
             holder.btnPlusQty.setVisibility(View.GONE);
@@ -89,7 +90,7 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 qty[position]++;
                 holder.txtQty.setText(qty[position]+"");
                 AppContext.getInstance().increaseQtyForItem(menuItem);
-                parentUpdateListener.update(null);
+                parentUpdateListener.update("", null);
             }
         });
         holder.btnMinusQty.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +105,7 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 qty[position]--;
                 holder.txtQty.setText(qty[position]+"");
                 AppContext.getInstance().decreaseQtyForItem(menuItem.getId());
-                parentUpdateListener.update(null);
+                parentUpdateListener.update("", null);
 
             }
         });
@@ -118,7 +119,7 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 holder.txtQty.setVisibility(View.VISIBLE);
                 holder.txtQty.setText(qty[position]+"");
                 AppContext.getInstance().increaseQtyForItem(items.get(position));
-                parentUpdateListener.update(null);
+                parentUpdateListener.update("", null);
             }
         });
     }
@@ -126,6 +127,17 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void updateQtys() {
+        for (int pos=0;pos<getItemCount();pos++) {
+            MenuItem item = items.get(pos);
+            long newQty = AppContext.getInstance().getCurrQtyForItem(item.getId());
+            if (newQty != qty[pos]) {
+                qty[pos] = newQty;
+                notifyItemChanged(pos);
+            }
+        }
     }
 
     class MenuItemViewHolder extends RecyclerView.ViewHolder {

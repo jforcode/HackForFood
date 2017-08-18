@@ -10,5 +10,5 @@ import com.example.jeevan.swiggy.models.OrderItem;
  */
 
 public interface UpdateParentInterface {
-    void update(Bundle bundle);
+    void update(String action, Bundle bundle);
 }

@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CheckoutCartActivity extends AppCompatActivity {
+public class CheckoutCartActivity extends AppCompatActivity implements UpdateParentInterface {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.order_name)
@@ -37,6 +37,7 @@ public class CheckoutCartActivity extends AppCompatActivity {
     RecyclerView listOrderItems;
 
     OrderDetailsAdapter adapter;
+    DBTransactions dbTransactions;
     Order order;
 
     @Override
@@ -48,6 +49,8 @@ public class CheckoutCartActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Order Summary");
         order = AppContext.getInstance().getOrder();
+        dbTransactions = DBTransactions.getInstance(this);
+
         txtTotalBill.setText("\u20B9 " + order.getTotalCost());
         adapter = new OrderDetailsAdapter(this, order.getOrderItems());
         listOrderItems.setAdapter(adapter);
@@ -56,8 +59,23 @@ public class CheckoutCartActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_order)
     public void saveOrder(View view) {
-        // to remove all activities on stack
-        // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        order.setOccasion(AppContext.getInstance().getOccasion().getOccasion());
+        order.setUser(AppContext.getInstance().getUser());
+        String orderName = txtOrderName.getText().toString();
+        if (orderName.isEmpty()) {
+            orderName = order.getUser().getUserName() + " " + order.getOccasion();
+        }
+        order.setOrderName(orderName);
+        dbTransactions.saveOrder(order);
+        if (order.getId() != -1) {
+            // TODO: show a order successful page
+            Intent intent = new Intent(this, OccasionsActivity.class);
+            // to remove all activities on stack
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Couldn't save order! Please try again.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -68,5 +86,18 @@ public class CheckoutCartActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void update(String action, Bundle bundle) {
+        if (action.equals(Constants.ACTION_INC_QTY)) {
+            com.example.jeevan.swiggy.models.MenuItem menuItem = bundle.getParcelable(Constants.MENU_ITEM);
+            AppContext.getInstance().increaseQtyForItem(menuItem);
+            txtTotalBill.setText(AppContext.getInstance().getOrder().getTotalCost()+"");
+        } else if (action.equals(Constants.ACTION_DEC_QTY)) {
+            long menuItemId = bundle.getLong(Constants.MENU_ITEM_ID, -1);
+            AppContext.getInstance().decreaseQtyForItem(menuItemId);
+            txtTotalBill.setText(AppContext.getInstance().getOrder().getTotalCost()+"");
+        }
     }
 }

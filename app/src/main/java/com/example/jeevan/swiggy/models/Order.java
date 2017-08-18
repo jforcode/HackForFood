@@ -15,7 +15,7 @@ public class Order implements Parcelable {
     // describe a custom swiggy order
     long id;
     User user;
-    // should change this to
+    // should change this to map
     List<OrderItem> orderItems;
     long qty;
     String orderName;
@@ -139,6 +139,9 @@ public class Order implements Parcelable {
     }
 
     public void increaseItemQty(MenuItem item) {
+        if (item == null) {
+            return;
+        }
         for (OrderItem orderItem : orderItems) {
             if (orderItem.getMenuItem().getId() == item.getId()) {
                 orderItem.setQty(orderItem.getQty() + 1);
@@ -157,6 +160,9 @@ public class Order implements Parcelable {
     }
 
     public void decreaseItemQty(long itemId) {
+        if (itemId == -1) {
+            return;
+        }
         for (int i=0;i<orderItems.size();i++) {
             OrderItem orderItem = orderItems.get(i);
             if (orderItem.getMenuItem().getId() == itemId) {

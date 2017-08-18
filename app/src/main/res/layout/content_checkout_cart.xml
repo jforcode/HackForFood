@@ -10,6 +10,7 @@
     <EditText
         android:id="@+id/order_name"
         android:hint="Give a name to your order"
+        android:textSize="14sp"
         android:padding="@dimen/general_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

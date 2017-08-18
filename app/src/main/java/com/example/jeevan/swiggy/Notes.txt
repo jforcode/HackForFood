@@ -1,6 +1,7 @@
 TODO:
-
-
+Implement a rest api and fetch data from there.
+Order merging.
+User page and other settings.
 
 Current implementation:
 - just to show off the concept
@@ -11,20 +12,13 @@ Current implementation:
 
 
 Thought on future enhancements:
-- can plug in some personalization stuff like location based search results etc.
-- machine learning for recommended orders.
-- Currently, the user selects an occasion, and orders under only that occasion
-  Can extend it for multiple occasions.
-  And, when the user first enters, he sees the occasions page
-   Can extend it to show the orders home page, like play store
-   Then, in categories, we can show trending in Occasion1, Trending in Occasion2 and so on..
-   Maybe, some other like recommended for you, Editor's choice, Custom orders from restaurants etc.
+- replicate the full fledged app and add this occasion based page as a tab in that. Then, plug in all the enhancements they might be doing
+    like personalized search results based on location, choice of items in orders.
 
+- In Home Page, showing only trending orders for now, which is statically put in the main layout page.
+    instead, use a list of categories, like editor's picks, trending, recent etc.
+    put it in a list
 
-Technical:
-- for now, only showing one Trending orders section
-    make it into a recycler view with data coming for various sections.
+- Implement a user page to show their previous orders, other settings.
 
-- like play store, try combining search screen on the home page
-
-- include order rating also, maybe build a system to give ratings and all.
+- Implement user ratings.

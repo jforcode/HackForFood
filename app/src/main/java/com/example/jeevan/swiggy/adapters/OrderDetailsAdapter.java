@@ -1,7 +1,9 @@
 package com.example.jeevan.swiggy.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.jeevan.swiggy.R;
 import com.example.jeevan.swiggy.Util.Constants;
+import com.example.jeevan.swiggy.activities.AppContext;
 import com.example.jeevan.swiggy.interfaces.UpdateParentInterface;
 import com.example.jeevan.swiggy.Util.Util;
 import com.example.jeevan.swiggy.models.OrderItem;
@@ -22,6 +25,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,7 +59,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         });
         objects = new ArrayList<>();
-        restaurantPosMap = new HashSet<>();
+        restaurantPosMap = new TreeSet<>();
         String prev = null;
         for (int i=0;i<listOrderItems.size();i++) {
             String curr = listOrderItems.get(i).getMenuItem().getRestaurant().getName();
@@ -86,72 +90,132 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private void updatePosMap() {
-        restaurantPosMap.clear();
-        for (int i=0;i<objects.size();i++) {
-            if (objects.get(i) instanceof String) {
-                restaurantPosMap.add(i);
-            }
-        }
-    }
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder1, final int position) {
         if (holder1 instanceof RestaurantViewHolder) {
+            // restaurant header
             RestaurantViewHolder holder = (RestaurantViewHolder) holder1;
             String restName = (String) objects.get(position);
             holder.txtRestName.setText(restName);
             holder.restIcon.setImageDrawable(Util.getNameDrawableRound(restName));
+
         } else if (holder1 instanceof MenuItemViewHolder) {
+            // items
             final MenuItemViewHolder holder = (MenuItemViewHolder) holder1;
+            // since this orderItem is the same reference as in the global order item,
+            // don't delete qty from here, updating qty from parent is fine
             final OrderItem orderItem = (OrderItem) objects.get(position);
             holder.txtItemName.setText(orderItem.getMenuItem().getName());
-            holder.txtItemPrice.setText("\u20B9 " + orderItem.getMenuItem().getPrice());
+            holder.txtItemPrice.setText(orderItem.getMenuItem().getPrice()+"");
             holder.txtQty.setText(orderItem.getQty()+"");
             holder.btnAddQty.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    long prevQty = orderItem.getQty();
-                    orderItem.setQty(orderItem.getQty() + 1);
-                    holder.txtQty.setText(orderItem.getQty()+"");
-                    Bundle data = new Bundle();
-                    data.putParcelable(Constants.IP_ORDER_ITEM, orderItem);
-                    data.putLong(Constants.IP_ORDER_PREV_QTY, prevQty);
-                    parentListener.update(data);
+                    // increase the qty
+                    if (parentListener != null) {
+                        Bundle data = new Bundle();
+                        data.putParcelable(Constants.MENU_ITEM, orderItem.getMenuItem());
+                        parentListener.update(Constants.ACTION_INC_QTY, data);
+                        holder.txtQty.setText(orderItem.getQty()+"");
+                    }
                 }
             });
             holder.btnMinusQty.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    long prevQty = orderItem.getQty();
-                    Bundle data = new Bundle();
-                    data.putParcelable(Constants.IP_ORDER_ITEM, orderItem);
-                    data.putLong(Constants.IP_ORDER_PREV_QTY, prevQty);
+                    // decrease qty
+                    // if only one item, confirm removal before deleting
                     if (orderItem.getQty() == 1) {
-                        // delete this
-                        orderItem.setQty(0);
-                        holder.txtQty.setText("0");
-                        if (objects.get(position-1) instanceof String) {
-                            if (position == getItemCount()-1 || objects.get(position+1) instanceof String) {
-                                objects.remove(position);
-                                objects.remove(position-1);
-                            } else {
-                                objects.remove(position);
-                            }
-                        } else {
-                            objects.remove(position);
-                        }
-                        parentListener.update(data);
-                        updatePosMap();
-                        notifyDataSetChanged();
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(context)
+                                .setTitle("Are you sure you want to delete this item?")
+                                .setCancelable(true)
+                                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (parentListener != null) {
+                                            Bundle data = new Bundle();
+                                            data.putLong(Constants.MENU_ITEM_ID, orderItem.getMenuItem().getId());
+                                            parentListener.update(Constants.ACTION_DEC_QTY, data);
+                                            deleteItemAtPosition(position);
+                                        }
+                                    }
+                                })
+                                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // do nothing
+                                    }
+                                });
+                        mBuilder.show();
                     } else {
                         orderItem.setQty(orderItem.getQty() - 1);
                         holder.txtQty.setText(orderItem.getQty()+"");
-                        parentListener.update(data);
+                        if (parentListener != null) {
+                            Bundle data = new Bundle();
+                            data.putLong(Constants.MENU_ITEM_ID, orderItem.getMenuItem().getId());
+                            parentListener.update(Constants.ACTION_DEC_QTY, data);
+                        }
                     }
                 }
             });
         }
+    }
+
+    private void deleteItemAtPosition(int position) {
+        if (position == 0) {
+            // this call should not happen
+            // because first should always be a restaurant header, and this method is deleting items
+            // still, don't delete this condition
+        } else if (position == objects.size()-1) {
+            if (objects.size() > 1 && objects.get(position-1) instanceof String) {
+                // only item for the restaurant, delete restaurant also
+                deleteSingleItem(position);
+                notifyItemRangeRemoved(position-1, 2);
+                notifyItemRangeChanged(position-1, 2);
+            } else {
+                objects.remove(position);
+                notifyItemRemoved(position);
+                notifyItemChanged(position);
+            }
+        } else {
+            // size is atleast 3
+            int prevCount = objects.size();
+            boolean restDeleted = false;
+            if (objects.get(position-1) instanceof String && objects.get(position+1) instanceof String) {
+                // only item for restaurant, delete restaurant also
+                deleteSingleItem(position);
+                notifyItemRangeRemoved(position-1, 2);
+                restDeleted = true;
+            } else {
+                objects.remove(position);
+                notifyItemRemoved(position);
+            }
+            // all restaurants after position have moved up by 1 or 2
+            List<Integer> toUpdatePosList = new ArrayList<>();
+            for (int restPos : restaurantPosMap) {
+                if (restPos > position) toUpdatePosList.add(restPos);
+            }
+            for (int pos : toUpdatePosList) {
+                restaurantPosMap.remove(pos);
+                if (restDeleted) restaurantPosMap.add(pos - 2);
+                else restaurantPosMap.add(pos - 1);
+            }
+            if (restDeleted) {
+                notifyItemRangeChanged(position - 1, prevCount - position + 1);
+            } else {
+                notifyItemRangeChanged(position, prevCount - position);
+            }
+        }
+    }
+
+    /**
+     * deletes single item, i.e. an item which was the only one in its restaurant
+     * @param position position of the item to remove
+     */
+    private void deleteSingleItem(int position) {
+        objects.remove(position);
+        objects.remove(position-1);
+        restaurantPosMap.remove(position-1);
     }
 
     @Override

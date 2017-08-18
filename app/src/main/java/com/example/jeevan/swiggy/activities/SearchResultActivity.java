@@ -71,6 +71,7 @@ public class SearchResultActivity extends AppCompatActivity implements UpdatePar
     protected void onResume() {
         super.onResume();
         Util.showSummarySnackbar(this, parent);
+        adapter.updateQtys();
     }
 
     @Override
@@ -83,7 +84,7 @@ public class SearchResultActivity extends AppCompatActivity implements UpdatePar
     }
 
     @Override
-    public void update(Bundle bundle) {
+    public void update(String action, Bundle bundle) {
         Util.showSummarySnackbar(this, parent);
     }
 }

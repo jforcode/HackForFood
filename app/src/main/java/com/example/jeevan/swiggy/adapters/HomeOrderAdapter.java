@@ -66,8 +66,8 @@ public class HomeOrderAdapter extends RecyclerView.Adapter<ViewHolder> implement
         for (OrderItem item : curr.getOrderItems()) {
             orderItems.append(item.getMenuItem().getName() + ", ");
         }
-        if (orderItems.length() > 0) {
-            orderItems.deleteCharAt(orderItems.length()-1);
+        if (orderItems.length() > 2) {
+            orderItems.deleteCharAt(orderItems.length()-2);
         }
         holder.txtOrderItems.setText(orderItems);
         holder.btnMenu.setOnClickListener(new View.OnClickListener() {
