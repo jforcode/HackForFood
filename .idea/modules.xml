@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Swiggy.iml" filepath="$PROJECT_DIR$/Swiggy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HackForFood.iml" filepath="$PROJECT_DIR$/HackForFood.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

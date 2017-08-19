@@ -5,7 +5,7 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jeevan.swiggy.activities.SearchResultActivity">
+    tools:context="com.example.jeevan.hackforfood.activities.SearchResultActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

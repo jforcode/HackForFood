@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jeevan.swiggy.activities.CheckoutCartActivity">
+    tools:context="com.example.jeevan.hackforfood.activities.CheckoutCartActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
